@@ -1,0 +1,7 @@
+CREATE TABLE IF NOT EXISTS comment(
+    id serial PRIMARY KEY,
+    title VARCHAR(64) NOT NULL,
+    content TEXT NOT NULL,
+    created_at TIMESTAMP NOT NULL,
+    last_UPDATED_AT TIMESTAMP NOT NULL
+);
