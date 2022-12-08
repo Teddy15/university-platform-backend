@@ -14,11 +14,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
+import java.util.UUID;
 
 @Service
 public class AttachmentService {
     private static final String UPLOAD_SUCCESS = "Successfully uploaded a file!";
-    private static final String UPLOAD_KEY = "%{key}/{filename}.{extension}";
+    private static final String UPLOAD_KEY = "%s/%s.%s";
 
     private final AttachmentRepository attachmentRepository;
     private final AppConfig appConfig;
@@ -36,7 +37,7 @@ public class AttachmentService {
                 attachmentDto.getFileContent());
 
         Attachment attachment = new Attachment();
-        attachment.setFileKey(fileKey);
+        attachment.setFileKey(UUID.fromString(fileKey));
         attachment.setFileName(attachmentDto.getFileName());
         attachment.setFileType(attachmentDto.getFileType());
 
@@ -51,8 +52,6 @@ public class AttachmentService {
 
         File tempFile = new File(key);
         String uploadedFileKey = "";
-
-        // todo -> different fileKey = tempFileName
 
         try{
             byte[] contentAsBytes = fileContent.getBytes();
@@ -71,9 +70,9 @@ public class AttachmentService {
             PutObjectRequest request = new PutObjectRequest(
                     appConfig.getAmazonS3Config().getBucketName(), uploadKey, tempFile);
 
-            PutObjectResult putObjectResult = amazonS3.putObject(request);
+            //PutObjectResult putObjectResult = amazonS3.putObject(request);
 
-            uploadedFileKey = request.getKey();
+            uploadedFileKey = key;
         }
         finally{
             tempFile.delete();

@@ -4,20 +4,17 @@ import lombok.Data;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.util.UUID;
 
 @Entity(name="attachment")
-@Table(name="post", schema="uni_platform")
+@Table(name="attachment", schema="uni_platform")
 @Data
 public class Attachment {
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
-    private Long id;
+    private UUID fileKey;
 
     @NotBlank
     private String fileName;
-
-    @NotBlank
-    private String fileKey;
 
     @NotBlank
     private String fileType;

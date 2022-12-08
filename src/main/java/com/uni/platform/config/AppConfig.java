@@ -11,9 +11,6 @@ import org.springframework.validation.annotation.Validated;
 @ConfigurationProperties(prefix = "config")
 @Validated
 public class AppConfig {
-    @Autowired
-    private BuildProperties buildProperties;
-
     private final AmazonS3Config amazonS3Config = new AmazonS3Config();
 
     public AmazonS3Config getAmazonS3Config() {
