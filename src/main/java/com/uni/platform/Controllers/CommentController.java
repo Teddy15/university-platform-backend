@@ -1,18 +1,17 @@
 package com.uni.platform.Controllers;
 
-import com.uni.platform.Enities.Comment;
-import com.uni.platform.RequestBodies.CommentRequest;
+import com.uni.platform.dto.CommentDto;
 import com.uni.platform.Services.CommentsService;
-import org.springframework.data.relational.core.sql.In;
-import org.springframework.http.HttpStatus;
+import com.uni.platform.dto.CreateCommentDto;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
-@RequestMapping("/uni-platform")
+@Slf4j
+@RequestMapping("/uni-platform/comments")
 @CrossOrigin(origins = "*", maxAge = 30)
 public class CommentController {
 
@@ -22,43 +21,35 @@ public class CommentController {
         this.commentsService = commentsService;
     }
 
-    @GetMapping("/comments")
-    public ResponseEntity<?> GetAllComments() {
-        List<Comment> comments = commentsService.GetAllComments();
+    @GetMapping
+    public ResponseEntity<?> getAllComments() {
+        log.info("getAllComments() called");
+        List<CommentDto> comments = commentsService.getAllComments();
         return ResponseEntity.ok(comments);
     }
 
-    @GetMapping("/comment/{id}")
-    public ResponseEntity<?> GetCommentById(@PathVariable Integer id) {
-        Optional<Comment> comments = commentsService.GetCommentsById(id);
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getCommentById(@PathVariable Long id) {
+        log.info("getCommentById() called");
+        CommentDto comments = commentsService.getCommentsById(id);
         return ResponseEntity.ok(comments);
     }
 
-    @PutMapping("/comment/{id}")
-    public ResponseEntity<?> UpdateComment(@RequestBody CommentRequest commentRequest,  @PathVariable Integer id) {
-        commentsService.UpdateComment(commentRequest, id);
-        return ResponseEntity.ok(HttpStatus.OK);
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateComment(@RequestBody CommentDto commentDto, @PathVariable Long id) {
+        log.info("updateComment() called");
+        return commentsService.updateComment(commentDto, id);
     }
 
-    @DeleteMapping("/comment/{id}")
-    public ResponseEntity<?> DeleteComment(@PathVariable Integer id) {
-        boolean result = commentsService.DeleteComment(id);
-        if(result == true) {
-            return ResponseEntity.ok(HttpStatus.OK);
-        }
-        else {
-            return ResponseEntity.internalServerError().body(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteComment(@PathVariable Long id) {
+        log.info("deleteComment() called");
+        return commentsService.deleteComment(id);
     }
 
-    @PostMapping("/comment/{id}")
-    public ResponseEntity<?> CreateComment(@RequestBody CommentRequest commentRequest, @PathVariable Integer id) {
-        boolean result = commentsService.CreateComment(commentRequest, id);
-        if(result == true) {
-            return ResponseEntity.ok(HttpStatus.OK);
-        }
-        else {
-            return ResponseEntity.internalServerError().body(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+    @PostMapping
+    public ResponseEntity<String> createComment(@RequestBody CreateCommentDto createCommentDto) {
+        log.info("createComment() called");
+        return commentsService.createComment(createCommentDto);
     }
 }

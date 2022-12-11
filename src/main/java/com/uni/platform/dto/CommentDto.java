@@ -1,31 +1,25 @@
-package com.uni.platform.Enities;
+package com.uni.platform.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import javax.persistence.*;
+
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
 
-@Entity(name = "comment")
 @Data
-@Table(name = "comment")
-@NoArgsConstructor
 @AllArgsConstructor
-public class Comment {
+@NoArgsConstructor
+public class CommentDto {
 
-    @Id
-    @Column(columnDefinition = "SERIAL")
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @NotNull
     private Long id;
 
-    @Column
     @NotBlank
     private String content;
 
-    @Column
     private Timestamp created_at;
 
-    @Column
     private Timestamp last_updated_at;
 }

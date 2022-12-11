@@ -1,22 +1,20 @@
 package com.uni.platform.Services;
 
-import com.uni.platform.Enities.Comment;
-import com.uni.platform.RequestBodies.CommentRequest;
-import org.springframework.data.relational.core.sql.In;
-import org.springframework.web.bind.annotation.RequestBody;
+import com.uni.platform.dto.CommentDto;
+import com.uni.platform.dto.CreateCommentDto;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface ICommentsService {
 
-    public Optional<Comment> GetCommentsById(Integer id);
+    CommentDto getCommentsById(Long id);
 
-    public List<Comment> GetAllComments();
+    List<CommentDto> getAllComments();
 
-    public boolean CreateComment(CommentRequest commentRequest, Integer id);
+    ResponseEntity<String> createComment(CreateCommentDto createCommentDto);
 
-    public boolean DeleteComment(Integer id);
+    ResponseEntity<String> deleteComment(Long id);
 
-    public void UpdateComment(CommentRequest commentRequest, Integer id);
+    ResponseEntity<String> updateComment(CommentDto commentDto, Long id);
 }

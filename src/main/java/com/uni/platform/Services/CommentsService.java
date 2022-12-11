@@ -2,74 +2,74 @@ package com.uni.platform.Services;
 
 import com.uni.platform.Enities.Comment;
 import com.uni.platform.Repositories.CommentRepository;
-import com.uni.platform.RequestBodies.CommentRequest;
+import com.uni.platform.dto.CommentDto;
+import com.uni.platform.dto.CreateCommentDto;
+import com.uni.platform.mapper.CommentMapper;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
-import java.sql.Date;
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
+import java.util.NoSuchElementException;
 
 @Service
 public class CommentsService implements ICommentsService {
 
-    private CommentRepository commentRepository;
+    private static final String CREATE_SUCCESS = "Successfully created a comment!";
+    private static final String UPDATE_SUCCESS = "Successfully updated your comment!";
+    private static final String DELETE_SUCCESS = "Successfully deleted your comment";
 
-    public CommentsService(CommentRepository commentRepository) {
+    private final CommentRepository commentRepository;
+    private final CommentMapper commentMapper;
+
+    public CommentsService(CommentRepository commentRepository, CommentMapper commentMapper) {
         this.commentRepository = commentRepository;
+        this.commentMapper = commentMapper;
     }
 
     @Override
-    public Optional<Comment> GetCommentsById(Integer id) {
-        Optional<Comment> comment = commentRepository.findCommentById(id);
-        return comment;
+    public CommentDto getCommentsById(Long id) {
+        return commentMapper.commentEntityToCommentDto(
+                commentRepository.findById(id)
+                        .orElseThrow(() -> new NoSuchElementException("No comment found with id: " + id)));
     }
 
     @Override
-    public List<Comment> GetAllComments() {
-        List<Comment> comments = commentRepository.findAll();
-        return comments;
+    public List<CommentDto> getAllComments() {
+        return commentMapper.commentEntityToCommentDto(commentRepository.orderCommentByCreatedAt());
     }
 
     @Override
-    public boolean CreateComment(CommentRequest commentRequest, Integer id) {
-        Timestamp createdAt = new Timestamp(System.currentTimeMillis());
-        Comment comment = new Comment(id, commentRequest.getTitle(),
-                commentRequest.getContent(), createdAt);
+    public ResponseEntity<String> createComment(CreateCommentDto createCommentDto) {
 
-        if(comment != null) {
-            comment.setLast_updated_at(createdAt);
-            commentRepository.save(comment);
-            return true;
-        }
+        Comment comment = commentMapper.createCommentDtoToCommentEntity(createCommentDto);
 
-        return false;
+        Timestamp created_at = new Timestamp(System.currentTimeMillis());
+        comment.setCreated_at(created_at);
+        comment.setLast_updated_at(created_at);
+
+        commentRepository.save(comment);
+        return new ResponseEntity<>(CREATE_SUCCESS, HttpStatus.OK);
     }
 
     @Override
-    public boolean DeleteComment(Integer id) {
-
-        Comment comment = commentRepository.findCommentById(id).get();
-
-        if(comment != null) {
-            commentRepository.delete(comment);
-            return true;
-        }
-
-        return false;
+    public ResponseEntity<String> deleteComment(Long id) {
+        getCommentsById(id);
+        commentRepository.deleteById(id);
+        return new ResponseEntity<>(DELETE_SUCCESS, HttpStatus.OK);
     }
 
     @Override
-    public void UpdateComment(CommentRequest commentRequest, Integer id) {
-        Optional<Comment> comment = commentRepository.findCommentById(id).map(
-                response -> {
-                    response.setContent(commentRequest.getContent());
-                    response.setTitle(commentRequest.getTitle());
-                    return commentRepository.save(response);
-                }
-        );
-    }
+    public ResponseEntity<String> updateComment(CommentDto commentDto, Long id) {
 
+        Comment comment = commentMapper.commentDtoToCommentEntity(getCommentsById(id));
+
+        Timestamp last_updated_at = new Timestamp(System.currentTimeMillis());
+        comment.setLast_updated_at(last_updated_at);
+        comment.setContent(commentDto.getContent());
+
+        commentRepository.save(comment);
+        return new ResponseEntity<>(UPDATE_SUCCESS, HttpStatus.OK);
+    }
 }
