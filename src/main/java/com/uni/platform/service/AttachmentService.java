@@ -24,7 +24,7 @@ import java.util.UUID;
 public class AttachmentService {
     private static final String UPLOAD_SUCCESS = "Successfully uploaded a file!";
 
-    private static final String UPLOAD_KEY = "/posts/%s-%s.%s";
+    private static final String UPLOAD_KEY = "/posts/%s/%s-%s.%s";
 
     private final AttachmentRepository attachmentRepository;
     private final AppConfig appConfig;
@@ -35,12 +35,12 @@ public class AttachmentService {
         this.appConfig = appConfig;
     }
 
-    public ResponseEntity<AttachmentDto> downloadFile(Long fileId){
+    public ResponseEntity<AttachmentDto> downloadFile(Long fileId, Long postId){
         Attachment attachment = attachmentRepository
                 .findById(fileId)
                 .orElseThrow(() -> new NoSuchElementException("No file found with id: " + fileId));
         String downloadKey = String.format(
-                UPLOAD_KEY, attachment.getFileKey(), attachment.getFileName(), attachment.getFileType());
+                UPLOAD_KEY, postId, attachment.getFileKey(), attachment.getFileName(), attachment.getFileType());
         AttachmentDto result = new AttachmentDto();
 
         try{
@@ -63,47 +63,44 @@ public class AttachmentService {
         return ResponseEntity.ok(result);
     }
 
-    public ResponseEntity<String> uploadFile(AttachmentDto attachmentDto){
-        String fileKey = uploadFileToAmazon(attachmentDto).getBody();
+    public ResponseEntity<String> uploadFile(AttachmentDto attachmentDto) {
+        String fileKey = constructPostAttachmentFileKey(
+                attachmentDto.getFileName(), attachmentDto.getFileType());
+        try{
+            uploadFileToAmazon(attachmentDto, fileKey);
 
-        Attachment attachment = new Attachment();
-        attachment.setFileKey(fileKey);
-        attachment.setFileName(attachmentDto.getFileName());
-        attachment.setFileType(attachmentDto.getFileType());
+            Attachment attachment = new Attachment();
+            attachment.setFileKey(fileKey);
+            attachment.setFileName(attachmentDto.getFileName());
+            attachment.setFileType(attachmentDto.getFileType());
 
-        attachmentRepository.save(attachment);
+            attachmentRepository.save(attachment);
+        }catch(AmazonServiceException | IOException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
 
         return new ResponseEntity<>(UPLOAD_SUCCESS, HttpStatus.OK);
     }
 
-    private ResponseEntity<String> uploadFileToAmazon(AttachmentDto attachmentDto) {
-        String fileKey = constructPostAttachmentFileKey(
-                attachmentDto.getFileName(), attachmentDto.getFileType());
+    private void uploadFileToAmazon(AttachmentDto attachmentDto, String fileKey) throws IOException{
         PutObjectResult result;
 
-        try{
-            File tempFile = new File(fileKey);
-            FileUtils.writeByteArrayToFile(tempFile, attachmentDto.getFileContent().getBytes());
+        File tempFile = new File(fileKey);
+        FileUtils.writeByteArrayToFile(tempFile, attachmentDto.getFileContent().getBytes());
 
-            AmazonClientConfig amazonClientConfig = new AmazonClientConfig(appConfig);
-            AmazonS3 amazonS3 = amazonClientConfig.getAmazonS3Client();
+        AmazonClientConfig amazonClientConfig = new AmazonClientConfig(appConfig);
+        AmazonS3 amazonS3 = amazonClientConfig.getAmazonS3Client();
 
-            result = amazonS3.putObject(
-                    appConfig.getAmazonS3Config().getBucketName(), fileKey, tempFile);
+        result = amazonS3.putObject(
+                appConfig.getAmazonS3Config().getBucketName(), fileKey, tempFile);
 
-            if(result == null){
-                throw new AmazonServiceException("Problem occurred while executing putObject()");
-            }
-
-            if(!tempFile.delete()){
-                throw new IOException("Problem occurred while deleting temporary file with fileKey: " + fileKey);
-            }
-        }
-        catch(AmazonServiceException | IOException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        if(result == null){
+            throw new AmazonServiceException("Problem occurred while executing putObject()");
         }
 
-        return new ResponseEntity<>(fileKey, HttpStatus.OK);
+        if(!tempFile.delete()){
+            throw new IOException("Problem occurred while deleting temporary file with fileKey: " + fileKey);
+        }
     }
 
     private String constructPostAttachmentFileKey(String fileName, String fileType){

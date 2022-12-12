@@ -4,7 +4,6 @@ import lombok.Data;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import java.util.UUID;
 
 @Entity(name="attachment")
 @Table(name="attachment", schema="uni_platform")
@@ -15,8 +14,6 @@ public class Attachment {
 
     @NotBlank
     private String fileKey;
-
-    //Post/{fileName}-uuid.fileType
 
     @NotBlank
     private String fileName;
