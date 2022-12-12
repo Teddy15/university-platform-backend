@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -45,7 +46,7 @@ public class CommentsService implements ICommentsService {
 
         Comment comment = commentMapper.createCommentDtoToCommentEntity(createCommentDto);
 
-        Timestamp created_at = new Timestamp(System.currentTimeMillis());
+        LocalDateTime created_at = LocalDateTime.now();
         comment.setCreated_at(created_at);
         comment.setLast_updated_at(created_at);
 
@@ -65,7 +66,7 @@ public class CommentsService implements ICommentsService {
 
         Comment comment = commentMapper.commentDtoToCommentEntity(getCommentsById(id));
 
-        Timestamp last_updated_at = new Timestamp(System.currentTimeMillis());
+        LocalDateTime last_updated_at = LocalDateTime.now();
         comment.setLast_updated_at(last_updated_at);
         comment.setContent(commentDto.getContent());
 

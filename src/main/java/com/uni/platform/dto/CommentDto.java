@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Data
 @AllArgsConstructor
@@ -19,7 +19,7 @@ public class CommentDto {
     @NotBlank
     private String content;
 
-    private Timestamp created_at;
+    private LocalDateTime created_at;
 
-    private Timestamp last_updated_at;
+    private LocalDateTime last_updated_at;
 }

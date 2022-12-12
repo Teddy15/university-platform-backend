@@ -5,7 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Entity(name = "comment")
 @Data
@@ -24,8 +24,8 @@ public class Comment {
     private String content;
 
     @Column
-    private Timestamp created_at;
+    private LocalDateTime created_at;
 
     @Column
-    private Timestamp last_updated_at;
+    private LocalDateTime last_updated_at;
 }
