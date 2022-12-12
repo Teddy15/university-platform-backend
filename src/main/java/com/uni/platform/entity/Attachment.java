@@ -1,5 +1,6 @@
 package com.uni.platform.entity;
 
+
 import lombok.Data;
 
 import javax.persistence.*;

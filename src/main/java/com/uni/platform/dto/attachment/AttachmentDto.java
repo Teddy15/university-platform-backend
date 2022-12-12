@@ -13,6 +13,7 @@ public class AttachmentDto {
     @NotBlank
     private String fileName;
 
+    @NotBlank
     private Long postId;
 
     @NotBlank
