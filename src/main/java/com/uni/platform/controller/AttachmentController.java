@@ -26,15 +26,10 @@ public class AttachmentController {
         this.attachmentService = attachmentService;
     }
 
-    @GetMapping("/{fileId}")
-    public ResponseEntity<AttachmentDto> downloadFile(@PathVariable UUID fileId){
+    @GetMapping("/{postId}")
+    public ResponseEntity<AttachmentDto> downloadFile(@PathVariable Long postId){
         log.info("downloadFile() called");
-        try{
-            return ResponseEntity.ok(attachmentService.downloadFile(fileId));
-        }
-        catch (Exception e){
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+        return attachmentService.downloadFile(postId);
     }
 
     @PostMapping

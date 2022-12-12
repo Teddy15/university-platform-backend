@@ -11,7 +11,12 @@ import java.util.UUID;
 @Data
 public class Attachment {
     @Id
-    private UUID fileKey;
+    private Long id;
+
+    @NotBlank
+    private String fileKey;
+
+    //Post/{fileName}-uuid.fileType
 
     @NotBlank
     private String fileName;
