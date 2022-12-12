@@ -10,6 +10,7 @@ import javax.validation.constraints.NotBlank;
 @Data
 public class Attachment {
     @Id
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
 
     @NotBlank

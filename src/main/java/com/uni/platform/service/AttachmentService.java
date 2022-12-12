@@ -40,7 +40,11 @@ public class AttachmentService {
                 .findById(fileId)
                 .orElseThrow(() -> new NoSuchElementException("No file found with id: " + fileId));
         String downloadKey = String.format(
-                UPLOAD_KEY, postId, attachment.getFileKey(), attachment.getFileName(), attachment.getFileType());
+                UPLOAD_KEY,
+                postId,
+                attachment.getFileKey(),
+                attachment.getFileName(),
+                attachment.getFileType());
         AttachmentDto result = new AttachmentDto();
 
         try{
@@ -65,7 +69,8 @@ public class AttachmentService {
 
     public ResponseEntity<String> uploadFile(AttachmentDto attachmentDto) {
         String fileKey = constructPostAttachmentFileKey(
-                attachmentDto.getFileName(), attachmentDto.getFileType());
+                attachmentDto.getPostId(), attachmentDto.getFileName(), attachmentDto.getFileType());
+
         try{
             uploadFileToAmazon(attachmentDto, fileKey);
 
@@ -103,8 +108,8 @@ public class AttachmentService {
         }
     }
 
-    private String constructPostAttachmentFileKey(String fileName, String fileType){
+    private String constructPostAttachmentFileKey(Long postId, String fileName, String fileType){
         return String.format(
-                UPLOAD_KEY, fileName, UUID.randomUUID(), fileType);
+                UPLOAD_KEY, postId, fileName, UUID.randomUUID(), fileType);
     }
 }
