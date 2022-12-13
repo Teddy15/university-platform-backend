@@ -5,6 +5,8 @@ import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.GetObjectRequest;
 import com.amazonaws.services.s3.model.PutObjectResult;
 import com.amazonaws.services.s3.model.S3Object;
+import com.amazonaws.services.s3.model.S3ObjectInputStream;
+import com.amazonaws.util.IOUtils;
 import com.uni.platform.config.AmazonClientConfig;
 import com.uni.platform.config.AppConfig;
 import com.uni.platform.dto.attachment.AttachmentDto;
@@ -17,6 +19,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
+import java.util.Base64;
 import java.util.NoSuchElementException;
 import java.util.UUID;
 
@@ -48,11 +51,12 @@ public class AttachmentService {
             S3Object obj = amazonS3.getObject(
                     appConfig.getAmazonS3Config().getBucketName(), attachment.getFileKey());
 
-            byte[] content = obj.getObjectContent().readAllBytes();
+            S3ObjectInputStream stream = obj.getObjectContent();
 
             result.setFileName(attachment.getFileName());
             result.setFileType(attachment.getFileType());
-            result.setFileContent(new String(content));
+            result.setFileContent(
+                    com.amazonaws.util.Base64.encodeAsString(IOUtils.toByteArray(stream)));
         }
         catch(AmazonServiceException | IOException e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -85,7 +89,8 @@ public class AttachmentService {
         PutObjectResult result;
 
         File tempFile = new File(fileKey);
-        FileUtils.writeByteArrayToFile(tempFile, attachmentDto.getFileContent().getBytes());
+        FileUtils.writeByteArrayToFile(
+                tempFile, Base64.getDecoder().decode(attachmentDto.getFileContent()));
 
         AmazonClientConfig amazonClientConfig = new AmazonClientConfig(appConfig);
         AmazonS3 amazonS3 = amazonClientConfig.getAmazonS3Client();

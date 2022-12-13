@@ -26,8 +26,8 @@ public class AttachmentController {
         this.attachmentService = attachmentService;
     }
 
-    @GetMapping
-    public ResponseEntity<AttachmentDto> downloadFile(Long fileId, Long postId){
+    @GetMapping("/{fileId}")
+    public ResponseEntity<AttachmentDto> downloadFile(@PathVariable Long fileId){
         log.info("downloadFile() called");
         return attachmentService.downloadFile(fileId);
     }
