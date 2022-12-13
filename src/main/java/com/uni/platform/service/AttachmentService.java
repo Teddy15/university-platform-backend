@@ -24,7 +24,7 @@ import java.util.UUID;
 public class AttachmentService {
     private static final String UPLOAD_SUCCESS = "Successfully uploaded a file!";
 
-    private static final String UPLOAD_KEY = "/posts/%s/%s-%s.%s";
+    private static final String UPLOAD_KEY = "posts/%s/%s-%s.%s";
 
     private final AttachmentRepository attachmentRepository;
     private final AppConfig appConfig;
@@ -35,16 +35,10 @@ public class AttachmentService {
         this.appConfig = appConfig;
     }
 
-    public ResponseEntity<AttachmentDto> downloadFile(Long fileId, Long postId){
+    public ResponseEntity<AttachmentDto> downloadFile(Long fileId){
         Attachment attachment = attachmentRepository
                 .findById(fileId)
                 .orElseThrow(() -> new NoSuchElementException("No file found with id: " + fileId));
-        String downloadKey = String.format(
-                UPLOAD_KEY,
-                postId,
-                attachment.getFileKey(),
-                attachment.getFileName(),
-                attachment.getFileType());
         AttachmentDto result = new AttachmentDto();
 
         try{
@@ -52,7 +46,7 @@ public class AttachmentService {
             AmazonS3 amazonS3 = amazonClientConfig.getAmazonS3Client();
 
             S3Object obj = amazonS3.getObject(
-                    appConfig.getAmazonS3Config().getBucketName(), downloadKey);
+                    appConfig.getAmazonS3Config().getBucketName(), attachment.getFileKey());
 
             byte[] content = obj.getObjectContent().readAllBytes();
 
