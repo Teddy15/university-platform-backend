@@ -48,6 +48,7 @@
 		<dependency>
 			<groupId>org.flywaydb</groupId>
 			<artifactId>flyway-core</artifactId>
+			<version>${flyway.version}</version>
 		</dependency>
 
 		<dependency>
@@ -118,20 +119,6 @@
 					</goals>
 				</execution>
 			</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.flywaydb</groupId>
-				<artifactId>flyway-maven-plugin</artifactId>
-				<version>${flyway.version}</version>
-				<configuration>
-					<user>postgres</user>
-					<password>postgres</password>
-					<schemas>
-						<schema>uni_platform</schema>
-					</schemas>
-					<locations>filesystem:src/main/resources/db/migration</locations>
-					<url>jdbc:postgresql://localhost:5432/postgres</url>
-				</configuration>
 			</plugin>
 		</plugins>
 	</build>

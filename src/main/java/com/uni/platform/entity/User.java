@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
 import java.util.Set;
 
 @Entity(name="user")
-@Table(name="user", schema="uni_platform",
+@Table(name="`user`",
         uniqueConstraints = {
             @UniqueConstraint(columnNames = "username"),
             @UniqueConstraint(columnNames = "email")
