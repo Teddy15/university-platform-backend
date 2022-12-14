@@ -1,8 +1,8 @@
-package com.uni.platform.Controllers;
+package com.uni.platform.controller;
 
-import com.uni.platform.dto.CommentDto;
-import com.uni.platform.Services.CommentsService;
-import com.uni.platform.dto.CreateCommentDto;
+import com.uni.platform.dto.comment.CommentDto;
+import com.uni.platform.service.CommentsService;
+import com.uni.platform.dto.comment.CreateCommentDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

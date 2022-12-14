@@ -1,4 +1,4 @@
-package com.uni.platform.dto;
+package com.uni.platform.dto.comment;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -9,20 +9,18 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.SignatureException;
 import io.jsonwebtoken.UnsupportedJwtException;
 import lombok.AllArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
 import java.time.ZonedDateTime;
 import java.util.Date;
 
+@Slf4j
 @Component
 @AllArgsConstructor
 public class JwtUtils {
     private final AppConfig appConfig;
-
-    private static final Logger log = LoggerFactory.getLogger(JwtUtils.class);
 
     public String generateJwtToken(Authentication authentication) {
 

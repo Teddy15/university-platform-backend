@@ -1,7 +1,7 @@
-package com.uni.platform.Services;
+package com.uni.platform.service;
 
-import com.uni.platform.dto.CommentDto;
-import com.uni.platform.dto.CreateCommentDto;
+import com.uni.platform.dto.comment.CommentDto;
+import com.uni.platform.dto.comment.CreateCommentDto;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;

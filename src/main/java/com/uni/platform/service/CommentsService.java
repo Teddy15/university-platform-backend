@@ -1,15 +1,14 @@
-package com.uni.platform.Services;
+package com.uni.platform.service;
 
-import com.uni.platform.Enities.Comment;
-import com.uni.platform.Repositories.CommentRepository;
-import com.uni.platform.dto.CommentDto;
-import com.uni.platform.dto.CreateCommentDto;
+import com.uni.platform.entity.Comment;
+import com.uni.platform.repository.CommentRepository;
+import com.uni.platform.dto.comment.CommentDto;
+import com.uni.platform.dto.comment.CreateCommentDto;
 import com.uni.platform.mapper.CommentMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.NoSuchElementException;

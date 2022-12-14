@@ -1,8 +1,8 @@
 package com.uni.platform.mapper;
 
-import com.uni.platform.Enities.Comment;
-import com.uni.platform.dto.CommentDto;
-import com.uni.platform.dto.CreateCommentDto;
+import com.uni.platform.entity.Comment;
+import com.uni.platform.dto.comment.CommentDto;
+import com.uni.platform.dto.comment.CreateCommentDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.NullValueCheckStrategy;
 import org.springframework.stereotype.Component;

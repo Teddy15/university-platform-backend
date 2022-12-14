@@ -1,25 +1,31 @@
-package com.uni.platform.dto;
+package com.uni.platform.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
+@Entity(name = "comment")
 @Data
-@AllArgsConstructor
+@Table(name = "comment")
 @NoArgsConstructor
-public class CommentDto {
+@AllArgsConstructor
+public class Comment {
 
-    @NotNull
+    @Id
+    @Column(columnDefinition = "SERIAL")
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
 
+    @Column
     @NotBlank
     private String content;
 
+    @Column
     private LocalDateTime created_at;
 
+    @Column
     private LocalDateTime last_updated_at;
 }
