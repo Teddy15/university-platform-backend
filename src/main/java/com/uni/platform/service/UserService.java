@@ -1,27 +1,30 @@
 package com.uni.platform.service;
 
 import com.uni.platform.dto.auth.SignupDto;
+import com.uni.platform.dto.user.UpdateUserDto;
 import com.uni.platform.entity.User;
 import com.uni.platform.mapper.UserMapper;
 import com.uni.platform.dto.user.UserDto;
 import com.uni.platform.repository.UserRepository;
+import com.uni.platform.util.SecurityUtils;
 import com.uni.platform.vo.UserRole;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Slf4j
 @Service
 public class UserService {
     private static final String CREATE_SUCCESS = "Successfully created a user account!";
-    private static final String UPDATE_SUCCESS = "Successfully updated your user account!";
     private static final String DELETE_SUCCESS = "Successfully deleted your user account!";
 
     private final UserRepository userRepository;
@@ -29,6 +32,7 @@ public class UserService {
     private final UserMapper userMapper;
 
     private final PasswordEncoder encoder;
+
 
     @Autowired
     public UserService(UserRepository userRepository, UserMapper userMapper, PasswordEncoder encoder) {
@@ -84,20 +88,41 @@ public class UserService {
         return new ResponseEntity<>(CREATE_SUCCESS, HttpStatus.OK);
     }
 
-    public User updateUserById(Long id, UserDto userDto) {
-        return userRepository.findById(id)
-                .map(user -> {
-                    user.setEmail(userDto.getEmail());
-                    user.setFullName(userDto.getFullName());
-                    user.setUsername(userDto.getUsername());
-                    user.setLastUpdatedAt(LocalDateTime.now());
-                    return user;
-                })
-                .orElseThrow(() -> new RuntimeException("Error: User is not found."));
+    public UpdateUserDto updateUserById(Long id, UpdateUserDto updateUserDto) {
+        Optional<User> currentUser = userRepository.findByUsername(SecurityUtils.getUserDetails().getUsername());
+        Optional<User> userToUpdate = userRepository.findById(id);
+
+        if (currentUser.isEmpty() || userToUpdate.isEmpty()) {
+            throw new UnsupportedOperationException("Error: User with id: " + id + " is not found!");
+        }
+
+        if (!currentUser.get().getRole().equals(UserRole.ROLE_ADMIN) && !id.equals(currentUser.get().getId())) {
+            throw new BadCredentialsException("You are trying to update a profile for which you do not have " +
+                    "the correct rights!");
+        }
+
+        User userEntity = userToUpdate.get();
+
+        userEntity.setEmail(updateUserDto.getEmail());
+        userEntity.setFullName(updateUserDto.getFullName());
+        userEntity.setUsername(updateUserDto.getUsername());
+        userEntity.setLastUpdatedAt(LocalDateTime.now());
+        userRepository.save(userEntity);
+        return userMapper.userEntityToUpdateUserDto(userEntity);
     }
 
     public ResponseEntity<String> deleteById(Long id) {
-        getUserById(id);
+        Optional<User> currentUser = userRepository.findByUsername(SecurityUtils.getUserDetails().getUsername());
+        Optional<User> userToUpdate = userRepository.findById(id);
+
+        if (currentUser.isEmpty() || userToUpdate.isEmpty()) {
+            throw new UnsupportedOperationException("Error: User with id: " + id + " is not found!");
+        }
+
+        if (!currentUser.get().getRole().equals(UserRole.ROLE_ADMIN) && !id.equals(currentUser.get().getId())) {
+            throw new BadCredentialsException("You are trying to delete a profile for which you do not have " +
+                    "the correct rights!");
+        }
 
         userRepository.deleteById(id);
         return new ResponseEntity<>(DELETE_SUCCESS, HttpStatus.OK);

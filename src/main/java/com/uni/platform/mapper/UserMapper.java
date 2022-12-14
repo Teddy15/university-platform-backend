@@ -1,6 +1,7 @@
 package com.uni.platform.mapper;
 
 import com.uni.platform.dto.auth.SignupDto;
+import com.uni.platform.dto.user.UpdateUserDto;
 import com.uni.platform.dto.user.UserDto;
 import com.uni.platform.entity.User;
 import org.mapstruct.Mapper;
@@ -17,4 +18,6 @@ public interface UserMapper {
     User userDtoToUserEntity(UserDto src);
 
     User signupDtoToUserEntity(SignupDto src);
+
+    UpdateUserDto userEntityToUpdateUserDto(User src);
 }
