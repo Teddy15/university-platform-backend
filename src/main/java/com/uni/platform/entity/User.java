@@ -11,11 +11,17 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 @Entity(name="user")
-@Table(name="user", schema="uni_platform")
+@Table(name="user", schema="uni_platform",
+        uniqueConstraints = {
+            @UniqueConstraint(columnNames = "username"),
+            @UniqueConstraint(columnNames = "email")
+})
 @Data
 public class User {
     @Id
@@ -23,16 +29,18 @@ public class User {
     private Long id;
 
     @NotBlank
-    @Column(unique = true)
+    @Size(max = 20)
     private String username;
 
     @NotBlank
+    @Size(max = 30)
     private String email;
 
     @NotBlank
     private String fullName;
 
     @NotBlank
+    @Size(max = 60)
     private String password;
 
     @Enumerated(EnumType.STRING)
@@ -41,4 +49,16 @@ public class User {
     private LocalDateTime registeredAt;
 
     private LocalDateTime lastUpdatedAt;
+
+    public User() {
+
+    }
+
+    public User(String username, String email, String fullName, String password, UserRole role) {
+        this.username = username;
+        this.email = email;
+        this.fullName = fullName;
+        this.password = password;
+        this.role = role;
+    }
 }

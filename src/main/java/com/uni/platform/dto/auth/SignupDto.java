@@ -1,4 +1,4 @@
-package com.uni.platform.dto.user;
+package com.uni.platform.dto.auth;
 
 import com.uni.platform.vo.UserRole;
 import lombok.AllArgsConstructor;
@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CreateUserDto {
+public class SignupDto {
     @NotBlank
     private String username;
 
@@ -25,8 +25,4 @@ public class CreateUserDto {
     private String password;
 
     private UserRole role;
-
-    private LocalDateTime registeredAt;
-
-    private LocalDateTime lastUpdatedAt;
 }
