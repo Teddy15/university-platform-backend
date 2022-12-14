@@ -8,8 +8,8 @@ import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 
 @Entity(name = "comment")
+@Table(name = "comment", schema="uni_platform")
 @Data
-@Table(name = "comment")
 @NoArgsConstructor
 @AllArgsConstructor
 public class Comment {
@@ -28,4 +28,8 @@ public class Comment {
 
     @Column
     private LocalDateTime last_updated_at;
+
+    @ManyToOne
+    @JoinColumn(name="post_id", referencedColumnName = "id", nullable=false)
+    private Post post;
 }

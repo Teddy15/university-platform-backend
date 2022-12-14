@@ -6,6 +6,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Entity(name="post")
 @Table(name="post", schema="uni_platform")
@@ -30,4 +31,7 @@ public class Post {
     @ManyToOne
     @JoinColumn(name="user_id", referencedColumnName = "id", nullable=false)
     private User user;
+
+    @OneToMany(mappedBy = "post")
+    private Set<Comment> comments;
 }
