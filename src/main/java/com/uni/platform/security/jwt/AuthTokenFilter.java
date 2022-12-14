@@ -2,8 +2,6 @@ package com.uni.platform.security.jwt;
 
 import com.uni.platform.service.UserDetailsServiceImpl;
 import com.uni.platform.util.jwt.JwtUtils;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

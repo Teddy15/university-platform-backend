@@ -1,16 +1,15 @@
-package com.uni.platform.dto.auth;
+package com.uni.platform.dto.user;
 
-import com.uni.platform.vo.UserRole;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class SignupDto {
+public class UpdateUserDto {
+    private Long id;
+
     @NotBlank
     private String username;
 
@@ -19,9 +18,4 @@ public class SignupDto {
 
     @NotBlank
     private String fullName;
-
-    @NotBlank
-    private String password;
-
-    private UserRole role;
 }

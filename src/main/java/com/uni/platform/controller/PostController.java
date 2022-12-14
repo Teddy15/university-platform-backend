@@ -7,6 +7,8 @@ import com.uni.platform.service.PostService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,32 +26,36 @@ public class PostController {
     }
 
     @GetMapping
-    public QueryPostDto getAllPosts(@RequestParam(defaultValue = "1") int currentPage,
-                                    @RequestParam(defaultValue = "10") int perPage) {
+    public QueryPostDto getAllPosts(@Validated @RequestParam(defaultValue = "1") int currentPage,
+                                    @Validated @RequestParam(defaultValue = "10") int perPage) {
 
         log.info("getAllPosts() called");
         return postService.getAllPosts(currentPage, perPage);
     }
 
     @GetMapping("/{postId}")
-    public PostDto getPostById(@PathVariable Long postId) {
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+    public PostDto getPostById(Authentication authentication, @PathVariable Long postId) {
         log.info("getPostById() called");
         return postService.getPostById(postId);
     }
 
     @PostMapping
-    public ResponseEntity<String> insertPost(@Validated @RequestBody CreatePostDto createPostDto){
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+    public ResponseEntity<String> insertPost(Authentication authentication, @Validated @RequestBody CreatePostDto createPostDto){
         log.info("insertPost() called");
         return postService.insertPost(createPostDto);
     }
 
     @PutMapping("/{postId}")
-    public ResponseEntity<String> updatePost(@PathVariable Long postId, @RequestBody PostDto postDto){
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+    public PostDto updatePost(@PathVariable Long postId, @RequestBody PostDto postDto){
         log.info("updatePost() called");
         return postService.updatePost(postId, postDto);
     }
 
     @DeleteMapping("/{postId}")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ResponseEntity<String> deletePost(@PathVariable Long postId){
         log.info("deletePost() called");
         return postService.deletePostById(postId);

@@ -1,7 +1,7 @@
 package com.uni.platform.controller;
 
+import com.uni.platform.dto.user.UpdateUserDto;
 import com.uni.platform.dto.user.UserDto;
-import com.uni.platform.entity.User;
 import com.uni.platform.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +33,7 @@ public class UserController {
     }
 
     @GetMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public List<UserDto> getAllUsers() {
         log.info("getAllUsers() called");
         return userService.getAllUsers();
@@ -47,14 +48,14 @@ public class UserController {
 
     @PutMapping("/{userId}")
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-    public User updateUserByUsername(@PathVariable Long userId,
-                                     @Validated @RequestBody UserDto userDto) {
+    public UpdateUserDto updateUserById(@PathVariable Long userId,
+                                              @Validated @RequestBody UpdateUserDto userDto) {
         return userService.updateUserById(userId, userDto);
     }
 
     @DeleteMapping("/{userId}")
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-    public ResponseEntity<String> deleteUserByUsername(@PathVariable Long userId) {
+    public ResponseEntity<String> deleteUserById(@PathVariable Long userId) {
         return userService.deleteById(userId);
     }
 }

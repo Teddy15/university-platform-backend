@@ -1,5 +1,7 @@
 package com.uni.platform.dto.post;
 
+import com.uni.platform.dto.user.UserPostDto;
+import com.uni.platform.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,8 +14,6 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PostDto {
-
-    @NotNull
     private Long id;
 
     @NotBlank
@@ -22,9 +22,9 @@ public class PostDto {
     @NotBlank
     private String content;
 
-    @NotNull
     private LocalDateTime createdAt;
 
-    @NotNull
     private LocalDateTime lastUpdatedAt;
+
+    private UserPostDto user;
 }
