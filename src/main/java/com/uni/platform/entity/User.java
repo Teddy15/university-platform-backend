@@ -1,5 +1,7 @@
 package com.uni.platform.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.uni.platform.vo.UserRole;
 import lombok.Data;
 
@@ -51,11 +53,12 @@ public class User {
 
     private LocalDateTime lastUpdatedAt;
 
-    @OneToMany(mappedBy = "user")
-    private Set<Post> posts;
-
-    @OneToMany(mappedBy = "user")
-    private Set<Comment> comments;
+//    @OneToSSSSSSSSSMany(mappedBy = "user")
+//    @JsonIgnore
+//    private Set<Post> posts;
+//
+//    @OneToMany(mappedBy = "user")
+//    private Set<Comment> comments;
 
     public User() {
 

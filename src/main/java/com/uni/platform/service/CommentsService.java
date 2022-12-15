@@ -1,10 +1,14 @@
 package com.uni.platform.service;
 
 import com.uni.platform.entity.Comment;
+import com.uni.platform.entity.User;
+import com.uni.platform.mapper.PostMapper;
+import com.uni.platform.mapper.UserMapper;
 import com.uni.platform.repository.CommentRepository;
 import com.uni.platform.dto.comment.CommentDto;
 import com.uni.platform.dto.comment.CreateCommentDto;
 import com.uni.platform.mapper.CommentMapper;
+import com.uni.platform.util.SecurityUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -23,9 +27,22 @@ public class CommentsService implements ICommentsService {
     private final CommentRepository commentRepository;
     private final CommentMapper commentMapper;
 
-    public CommentsService(CommentRepository commentRepository, CommentMapper commentMapper) {
+    private final PostService postService;
+
+    private final PostMapper postMapper;
+
+    private final UserService userService;
+
+    private final UserMapper userMapper;
+
+    public CommentsService(CommentRepository commentRepository, CommentMapper commentMapper,
+                           PostService postService, PostMapper postMapper, UserService userService, UserMapper userMapper) {
         this.commentRepository = commentRepository;
         this.commentMapper = commentMapper;
+        this.postService = postService;
+        this.postMapper = postMapper;
+        this.userService = userService;
+        this.userMapper = userMapper;
     }
 
     @Override
@@ -48,6 +65,16 @@ public class CommentsService implements ICommentsService {
         LocalDateTime created_at = LocalDateTime.now();
         comment.setCreated_at(created_at);
         comment.setLast_updated_at(created_at);
+
+        comment.setPost(
+                postMapper.postDtoToPostEntity(
+                        postService.getPostById(
+                                createCommentDto.getPostId())));
+
+        comment.setUser(
+                userMapper.userDtoToUserEntity(
+                        userService.getUserByUsername(
+                                SecurityUtils.getUserDetails().getUsername())));
 
         commentRepository.save(comment);
         return new ResponseEntity<>(CREATE_SUCCESS, HttpStatus.OK);

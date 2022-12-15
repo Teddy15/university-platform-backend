@@ -10,6 +10,7 @@ import javax.validation.constraints.NotBlank;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CreateCommentDto {
+    private Long postId;
 
     @NotBlank
     private String content;

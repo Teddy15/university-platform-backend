@@ -3,7 +3,7 @@ package com.uni.platform.mapper;
 import com.uni.platform.dto.comment.CommentDto;
 import com.uni.platform.dto.post.CreatePostDto;
 import com.uni.platform.dto.post.PostDto;
-import com.uni.platform.dto.user.UserPostDto;
+import com.uni.platform.dto.user.UserInfoDto;
 import com.uni.platform.entity.Comment;
 import com.uni.platform.entity.Post;
 import com.uni.platform.entity.User;
@@ -22,7 +22,21 @@ import java.util.Set;
 @Component
 public interface PostMapper {
     @Mapping(source = "user", target = "user", qualifiedByName = "userToUserPostDto")
+//    @Mapping(source = "comments", target = "comments", qualifiedByName = "map")
     PostDto postEntityToPostDto(Post src);
+
+    @Named("map")
+    default Set<CommentDto> map(Set<Comment> comments){
+        Set<CommentDto> result = new HashSet<>();
+
+        for (Comment comment:comments) {
+            CommentDto currentCommentDto = new CommentDto();
+            currentCommentDto.setId(comment.getId());
+            result.add(currentCommentDto);
+        }
+
+        return result;
+    }
 
     List<PostDto> postEntityToPostDto(List<Post> src);
 
@@ -31,24 +45,7 @@ public interface PostMapper {
     Post createPostDtoToPostEntity(CreatePostDto src);
 
     @Named("userToUserPostDto")
-    default UserPostDto userToUserPostDto(User user) {
-        return new UserPostDto(user.getId(), user.getUsername());
+    default UserInfoDto userToUserPostDto(User user) {
+        return new UserInfoDto(user.getId(), user.getUsername());
     }
-
-//    @Named("commentToCommentPostDto")
-//    default Set<CommentDto> CommentDto(Set<Comment> comments) {
-//        Set<CommentDto> result = new HashSet<>();
-//
-//        for (Comment comment: comments) {
-//            CommentDto currentComment = new CommentDto();
-//            currentComment.setId(comment.getId());
-//            currentComment.setContent(comment.getContent());
-//            currentComment.setCreated_at(comment.getCreated_at());
-//            currentComment.setLast_updated_at(comment.getLast_updated_at());
-//
-//            result.add(currentComment);
-//        }
-//
-//        return result;
-//    }
 }

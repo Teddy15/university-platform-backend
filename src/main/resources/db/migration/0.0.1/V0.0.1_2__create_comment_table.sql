@@ -4,5 +4,5 @@ CREATE TABLE IF NOT EXISTS comment(
     created_at TIMESTAMP NOT NULL,
     last_updated_at TIMESTAMP NOT NULL,
     user_id INTEGER REFERENCES "user" (id),
-    post_id INTEGER REFERENCES "post" (id)
+    post_id INTEGER REFERENCES post (id)
 );

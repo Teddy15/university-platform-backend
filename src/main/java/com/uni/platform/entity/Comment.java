@@ -1,5 +1,7 @@
 package com.uni.platform.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -30,10 +32,10 @@ public class Comment {
     private LocalDateTime last_updated_at;
 
     @ManyToOne
-    @JoinColumn(name="post_id", referencedColumnName = "id", nullable=false)
+    @JoinColumn(name="post_id", nullable=false)
     private Post post;
 
     @ManyToOne
-    @JoinColumn(name="user_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name="user_id", nullable = false)
     private User user;
 }

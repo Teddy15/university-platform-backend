@@ -23,7 +23,7 @@ public class CommentController {
     }
 
     @GetMapping
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ResponseEntity<?> getAllComments() {
         log.info("getAllComments() called");
         List<CommentDto> comments = commentsService.getAllComments();
