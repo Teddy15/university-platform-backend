@@ -13,6 +13,7 @@ import org.mapstruct.Named;
 import org.mapstruct.NullValueCheckStrategy;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -26,8 +27,8 @@ public interface PostMapper {
     PostDto postEntityToPostDto(Post src);
 
     @Named("map")
-    default Set<CommentDto> map(Set<Comment> comments){
-        Set<CommentDto> result = new HashSet<>();
+    default List<CommentDto> map(List<Comment> comments){
+        List<CommentDto> result = new ArrayList<>();
 
         for (Comment comment:comments) {
             UserInfoDto currentUserInfo = new UserInfoDto(comment.getUser().getId(), comment.getUser().getUsername());

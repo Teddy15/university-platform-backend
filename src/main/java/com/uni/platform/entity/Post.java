@@ -7,6 +7,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
 
 @Entity(name="post")
@@ -35,5 +36,5 @@ public class Post {
     private User user;
 
     @OneToMany(mappedBy = "post")
-    private Set<Comment> comments;
+    private List<Comment> comments;
 }

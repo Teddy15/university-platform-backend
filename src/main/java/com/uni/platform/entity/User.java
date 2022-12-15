@@ -18,6 +18,7 @@ import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
 
 @Entity(name="user")
@@ -57,11 +58,11 @@ public class User {
 
     @OneToMany(mappedBy = "user")
     @JsonIgnore
-    private Set<Post> posts;
+    private List<Post> posts;
 
     @OneToMany(mappedBy = "user")
     @JsonIgnore
-    private Set<Comment> comments;
+    private List<Comment> comments;
 
     public User() {
 
