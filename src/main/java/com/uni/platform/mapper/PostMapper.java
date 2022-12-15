@@ -22,7 +22,7 @@ import java.util.Set;
 @Component
 public interface PostMapper {
     @Mapping(source = "user", target = "user", qualifiedByName = "userToUserPostDto")
-//    @Mapping(source = "comments", target = "comments", qualifiedByName = "map")
+    @Mapping(source = "comments", target = "comments", qualifiedByName = "map")
     PostDto postEntityToPostDto(Post src);
 
     @Named("map")
@@ -30,8 +30,14 @@ public interface PostMapper {
         Set<CommentDto> result = new HashSet<>();
 
         for (Comment comment:comments) {
+            UserInfoDto currentUserInfo = new UserInfoDto(comment.getUser().getId(), comment.getUser().getUsername());
+
             CommentDto currentCommentDto = new CommentDto();
             currentCommentDto.setId(comment.getId());
+            currentCommentDto.setContent(comment.getContent());
+            currentCommentDto.setUser(currentUserInfo);
+            currentCommentDto.setCreated_at(comment.getCreated_at());
+            currentCommentDto.setLast_updated_at(comment.getLast_updated_at());
             result.add(currentCommentDto);
         }
 

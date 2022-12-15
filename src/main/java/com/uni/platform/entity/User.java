@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.uni.platform.vo.UserRole;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -26,6 +27,7 @@ import java.util.Set;
             @UniqueConstraint(columnNames = "email")
 })
 @Data
+@EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = false)
 public class User {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
@@ -53,12 +55,13 @@ public class User {
 
     private LocalDateTime lastUpdatedAt;
 
-//    @OneToSSSSSSSSSMany(mappedBy = "user")
-//    @JsonIgnore
-//    private Set<Post> posts;
-//
-//    @OneToMany(mappedBy = "user")
-//    private Set<Comment> comments;
+    @OneToMany(mappedBy = "user")
+    @JsonIgnore
+    private Set<Post> posts;
+
+    @OneToMany(mappedBy = "user")
+    @JsonIgnore
+    private Set<Comment> comments;
 
     public User() {
 

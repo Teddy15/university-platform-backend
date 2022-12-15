@@ -1,7 +1,7 @@
 package com.uni.platform.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -12,6 +12,7 @@ import java.util.Set;
 @Entity(name="post")
 @Table(name="post", schema="uni_platform")
 @Data
+@EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = false)
 public class Post {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
@@ -29,11 +30,10 @@ public class Post {
     @NotNull
     private LocalDateTime lastUpdatedAt;
 
-    @ManyToOne
-    @JoinColumn(name="user_id", nullable=false)
+    @ManyToOne()
+    @JoinColumn(name = "user_id")
     private User user;
 
     @OneToMany(mappedBy = "post")
-    @JsonIgnore
     private Set<Comment> comments;
 }

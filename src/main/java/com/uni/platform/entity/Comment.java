@@ -1,9 +1,9 @@
 package com.uni.platform.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = false)
 public class Comment {
 
     @Id
@@ -32,10 +33,12 @@ public class Comment {
     private LocalDateTime last_updated_at;
 
     @ManyToOne
-    @JoinColumn(name="post_id", nullable=false)
+    @JsonIgnore
+    @JoinColumn(name = "post_id")
     private Post post;
 
     @ManyToOne
-    @JoinColumn(name="user_id", nullable = false)
+    @JsonIgnore
+    @JoinColumn(name = "user_id")
     private User user;
 }
