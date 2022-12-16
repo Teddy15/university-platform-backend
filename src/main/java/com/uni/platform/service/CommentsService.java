@@ -1,5 +1,7 @@
 package com.uni.platform.service;
 
+import com.uni.platform.dto.post.PostDto;
+import com.uni.platform.dto.user.UserDto;
 import com.uni.platform.entity.Comment;
 import com.uni.platform.entity.User;
 import com.uni.platform.mapper.PostMapper;
@@ -9,8 +11,10 @@ import com.uni.platform.dto.comment.CommentDto;
 import com.uni.platform.dto.comment.CreateCommentDto;
 import com.uni.platform.mapper.CommentMapper;
 import com.uni.platform.util.SecurityUtils;
+import com.uni.platform.vo.UserRole;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -82,21 +86,34 @@ public class CommentsService implements ICommentsService {
 
     @Override
     public ResponseEntity<String> deleteComment(Long id) {
-        getCommentsById(id);
+        UserDto currentUser = userService.getUserByUsername(
+                SecurityUtils.getUserDetails().getUsername());
+        CommentDto currentComment = getCommentsById(id);
+
+        if (!currentUser.getRole().equals(UserRole.ROLE_ADMIN)
+                && !currentComment.getUser().getId().equals(currentUser.getId())) {
+            throw new BadCredentialsException("You are trying to delete a comment which does not belong to you");
+        }
+
         commentRepository.deleteById(id);
         return new ResponseEntity<>(DELETE_SUCCESS, HttpStatus.OK);
     }
 
     @Override
     public ResponseEntity<String> updateComment(CommentDto commentDto, Long id) {
+        UserDto currentUser = userService.getUserByUsername(
+                SecurityUtils.getUserDetails().getUsername());
+        CommentDto currentComment = getCommentsById(id);
 
-        Comment comment = commentMapper.commentDtoToCommentEntity(getCommentsById(id));
+        if (!currentUser.getRole().equals(UserRole.ROLE_ADMIN)
+                && !currentComment.getUser().getId().equals(currentUser.getId())) {
+            throw new BadCredentialsException("You are trying to delete a comment which does not belong to you");
+        }
 
-        LocalDateTime last_updated_at = LocalDateTime.now();
-        comment.setLast_updated_at(last_updated_at);
-        comment.setContent(commentDto.getContent());
+        currentComment.setContent(commentDto.getContent());
+        currentComment.setLast_updated_at(LocalDateTime.now());
 
-        commentRepository.save(comment);
+        commentRepository.save(commentMapper.commentDtoToCommentEntity(currentComment));
         return new ResponseEntity<>(UPDATE_SUCCESS, HttpStatus.OK);
     }
 }
