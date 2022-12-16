@@ -6,6 +6,7 @@ import com.uni.platform.dto.post.CreatePostDto;
 import com.uni.platform.dto.post.PostDto;
 import com.uni.platform.dto.post.QueryPostDto;
 import com.uni.platform.dto.user.UserDto;
+import com.uni.platform.entity.Category;
 import com.uni.platform.entity.Post;
 import com.uni.platform.mapper.CategoryMapper;
 import com.uni.platform.mapper.PostMapper;
@@ -87,6 +88,8 @@ public class PostService {
     }
 
     public ResponseEntity<String> insertPost(CreatePostDto createPostDto){
+        CategoryDto categoryDto = categoryService.getCategoryById(createPostDto.getCategoryId());
+
         Post post = postMapper.createPostDtoToPostEntity(createPostDto);
         post.setCreatedAt(LocalDateTime.now());
         post.setLastUpdatedAt(post.getCreatedAt());
@@ -103,9 +106,11 @@ public class PostService {
         return new ResponseEntity<>(CREATE_SUCCESS, HttpStatus.OK);
     }
 
-    public PostDto updatePost(Long id, PostDto postDto) {
+    public PostDto updatePost(Long id, CreatePostDto postDto) {
         UserDto currentUser = userService.getUserByUsername(SecurityUtils.getUserDetails().getUsername());
         PostDto currentPost = getPostById(id);
+        CategoryDto categoryDto = categoryService.getCategoryById(
+                postDto.getCategoryId());
 
         if (!currentUser.getRole().equals(UserRole.ROLE_ADMIN)
                 && !currentPost.getUser().getId().equals(currentUser.getId())) {
@@ -115,7 +120,10 @@ public class PostService {
         currentPost.setTitle(postDto.getTitle());
         currentPost.setContent(postDto.getContent());
         currentPost.setLastUpdatedAt(LocalDateTime.now());
-        currentPost.setCategoryInfoDto(postDto.getCategoryInfoDto());
+
+        Post post = postMapper.postDtoToPostEntity(currentPost);
+        post.setCategory(categoryMapper.categoryDtoToCategoryEntity(categoryDto));
+
         postRepository.save(postMapper.postDtoToPostEntity(currentPost));
         return currentPost;
     }

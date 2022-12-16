@@ -1,5 +1,6 @@
 package com.uni.platform.service;
 
+import com.uni.platform.entity.Category;
 import com.uni.platform.repository.CategoryRepository;
 import com.uni.platform.dto.category.CreateCategoryDto;
 import com.uni.platform.mapper.CategoryMapper;
@@ -9,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -45,7 +47,12 @@ public class CategoryService {
     }
 
     public ResponseEntity<String> insertCategory(CreateCategoryDto createCategoryDto) {
-        categoryRepository.save(categoryMapper.createCategoryDtoToCategoryEntity(createCategoryDto));
+        Category category = new Category();
+        category.setName(createCategoryDto.getName());
+        category.setCreatedAt(LocalDateTime.now());
+        category.setLastUpdatedAt(LocalDateTime.now());
+
+        categoryRepository.save(category);
         return new ResponseEntity<>(CREATE_SUCCESS, HttpStatus.OK);
     }
 

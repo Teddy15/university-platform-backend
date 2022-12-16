@@ -4,6 +4,7 @@ import com.uni.platform.dto.category.CreateCategoryDto;
 import com.uni.platform.dto.category.CategoryDto;
 import com.uni.platform.entity.Category;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.NullValueCheckStrategy;
 
 import java.util.List;

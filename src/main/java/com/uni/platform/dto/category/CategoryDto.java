@@ -18,7 +18,7 @@ public class CategoryDto {
     @NotBlank
     private String name;
 
-    private LocalDateTime registeredAt;
+    private LocalDateTime createdAt;
 
     private LocalDateTime lastUpdatedAt;
 }

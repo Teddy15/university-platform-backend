@@ -30,7 +30,7 @@ public class PostDto {
 
     private UserInfoDto user;
 
-    private List<CommentDto> comments;
+    private CategoryDto category;
 
-    private CategoryInfoDto categoryInfoDto;
+    private List<CommentDto> comments;
 }

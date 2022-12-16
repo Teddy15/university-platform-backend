@@ -42,14 +42,14 @@ public class PostController {
 
     @PostMapping
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-    public ResponseEntity<String> insertPost(Authentication authentication, @Validated @RequestBody CreatePostDto createPostDto){
+    public ResponseEntity<String> insertPost(@Validated @RequestBody CreatePostDto createPostDto){
         log.info("insertPost() called");
         return postService.insertPost(createPostDto);
     }
 
     @PutMapping("/{postId}")
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-    public PostDto updatePost(@PathVariable Long postId, @RequestBody PostDto postDto){
+    public PostDto updatePost(@PathVariable Long postId, @RequestBody CreatePostDto postDto){
         log.info("updatePost() called");
         return postService.updatePost(postId, postDto);
     }

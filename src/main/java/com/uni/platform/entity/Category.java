@@ -19,6 +19,16 @@ import java.util.List;
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = false)
 public class Category {
+    public Category() {
+    }
+
+    public Category(Long id, String name, LocalDateTime createdAt, LocalDateTime lastUpdatedAt) {
+        this.id = id;
+        this.name = name;
+        this.createdAt = createdAt;
+        this.lastUpdatedAt = lastUpdatedAt;
+    }
+
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;

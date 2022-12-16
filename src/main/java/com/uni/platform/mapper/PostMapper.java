@@ -1,9 +1,11 @@
 package com.uni.platform.mapper;
 
+import com.uni.platform.dto.category.CategoryDto;
 import com.uni.platform.dto.comment.CommentDto;
 import com.uni.platform.dto.post.CreatePostDto;
 import com.uni.platform.dto.post.PostDto;
 import com.uni.platform.dto.user.UserInfoDto;
+import com.uni.platform.entity.Category;
 import com.uni.platform.entity.Comment;
 import com.uni.platform.entity.Post;
 import com.uni.platform.entity.User;
@@ -23,6 +25,7 @@ import java.util.Set;
 @Component
 public interface PostMapper {
     @Mapping(source = "user", target = "user", qualifiedByName = "userToUserPostDto")
+    @Mapping(source = "category", target = "category", qualifiedByName = "categoryToCategoryDto")
     @Mapping(source = "comments", target = "comments", qualifiedByName = "map")
     PostDto postEntityToPostDto(Post src);
 
@@ -47,6 +50,7 @@ public interface PostMapper {
 
     List<PostDto> postEntityToPostDto(List<Post> src);
 
+    @Mapping(source = "category", target = "category", qualifiedByName = "categoryDtoToCategory")
     Post postDtoToPostEntity(PostDto src);
 
     Post createPostDtoToPostEntity(CreatePostDto src);
@@ -54,5 +58,20 @@ public interface PostMapper {
     @Named("userToUserPostDto")
     default UserInfoDto userToUserPostDto(User user) {
         return new UserInfoDto(user.getId(), user.getUsername());
+    }
+
+    @Named("categoryToCategoryDto")
+    default CategoryDto categoryToCategoryDto(Category category) {
+        return new CategoryDto(
+                category.getId(), category.getName(), category.getCreatedAt(), category.getLastUpdatedAt());
+    }
+
+    @Named("categoryDtoToCategory")
+    default Category categoryDtoToCategory(CategoryDto categoryDto) {
+        return new Category(
+                categoryDto.getId(),
+                categoryDto.getName(),
+                categoryDto.getCreatedAt(),
+                categoryDto.getLastUpdatedAt());
     }
 }
