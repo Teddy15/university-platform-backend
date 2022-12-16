@@ -1,10 +1,13 @@
 package com.uni.platform.service;
 
+import com.uni.platform.dto.category.CategoryDto;
+import com.uni.platform.dto.category.CategoryInfoDto;
 import com.uni.platform.dto.post.CreatePostDto;
 import com.uni.platform.dto.post.PostDto;
 import com.uni.platform.dto.post.QueryPostDto;
 import com.uni.platform.dto.user.UserDto;
 import com.uni.platform.entity.Post;
+import com.uni.platform.mapper.CategoryMapper;
 import com.uni.platform.mapper.PostMapper;
 import com.uni.platform.mapper.UserMapper;
 import com.uni.platform.repository.PostRepository;
@@ -20,7 +23,6 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -34,14 +36,19 @@ public class PostService {
     private final PostMapper postMapper;
     private final UserService userService;
     private final UserMapper userMapper;
+    private final CategoryService categoryService;
+    private final CategoryMapper categoryMapper;
 
     @Autowired
     public PostService(PostRepository postRepository, PostMapper postMapper,
-                       UserService userService, UserMapper userMapper) {
+                       UserService userService, UserMapper userMapper,
+                       CategoryService categoryService, CategoryMapper categoryMapper) {
         this.postRepository = postRepository;
         this.postMapper = postMapper;
         this.userService = userService;
         this.userMapper = userMapper;
+        this.categoryService = categoryService;
+        this.categoryMapper = categoryMapper;
     }
 
     public QueryPostDto getAllPosts(int currentPage, int itemsPerPage){
@@ -83,6 +90,10 @@ public class PostService {
         Post post = postMapper.createPostDtoToPostEntity(createPostDto);
         post.setCreatedAt(LocalDateTime.now());
         post.setLastUpdatedAt(post.getCreatedAt());
+        post.setCategory(
+                categoryMapper.categoryDtoToCategoryEntity(
+                        categoryService.getCategoryById(
+                                createPostDto.getCategoryId())));
 
         post.setUser(userMapper.userDtoToUserEntity(userService.getUserByUsername(
                 SecurityUtils.getUserDetails().getUsername()
@@ -104,6 +115,7 @@ public class PostService {
         currentPost.setTitle(postDto.getTitle());
         currentPost.setContent(postDto.getContent());
         currentPost.setLastUpdatedAt(LocalDateTime.now());
+        currentPost.setCategoryInfoDto(postDto.getCategoryInfoDto());
         postRepository.save(postMapper.postDtoToPostEntity(currentPost));
         return currentPost;
     }

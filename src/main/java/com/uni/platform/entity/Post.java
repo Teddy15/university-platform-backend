@@ -8,7 +8,6 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Set;
 
 @Entity(name="post")
 @Table(name="post", schema="uni_platform")
@@ -37,4 +36,8 @@ public class Post {
 
     @OneToMany(mappedBy = "post")
     private List<Comment> comments;
+
+    @ManyToOne
+    @JoinColumn(name="category_id")
+    private Category category;
 }

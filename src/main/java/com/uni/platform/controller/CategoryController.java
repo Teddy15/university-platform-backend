@@ -6,6 +6,7 @@ import com.uni.platform.service.CategoryService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -33,28 +34,33 @@ public class CategoryController {
     }
 
     @GetMapping
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public List<CategoryDto> getAllCategories() {
         log.info("getAllCategories() called");
         return categoryService.getAllCategories();
     }
 
     @GetMapping("/{categoryId}")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public CategoryDto getCategoryByName(@PathVariable Long categoryId) {
         return categoryService.getCategoryById(categoryId);
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<String> insertCategory(@Validated @RequestBody CreateCategoryDto createCategoryDto) {
         log.info("insertCategory() called");
         return categoryService.insertCategory(createCategoryDto);
     }
 
     @PutMapping("/{categoryId}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<String> updateCategoryByName(@PathVariable Long categoryId, @Validated @RequestBody CategoryDto categoryDto) {
         return categoryService.updateCategoryById(categoryId, categoryDto);
     }
 
     @DeleteMapping("/{categoryId}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<String> deleteCategoryByName(@PathVariable Long categoryId) {
         return categoryService.deleteById(categoryId);
     }

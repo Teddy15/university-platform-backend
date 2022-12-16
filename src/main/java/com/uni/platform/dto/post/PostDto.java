@@ -1,5 +1,7 @@
 package com.uni.platform.dto.post;
 
+import com.uni.platform.dto.category.CategoryDto;
+import com.uni.platform.dto.category.CategoryInfoDto;
 import com.uni.platform.dto.comment.CommentDto;
 import com.uni.platform.dto.user.UserInfoDto;
 import lombok.AllArgsConstructor;
@@ -9,7 +11,6 @@ import lombok.NoArgsConstructor;
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -30,4 +31,6 @@ public class PostDto {
     private UserInfoDto user;
 
     private List<CommentDto> comments;
+
+    private CategoryInfoDto categoryInfoDto;
 }

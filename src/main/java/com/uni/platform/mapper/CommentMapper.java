@@ -4,7 +4,6 @@ import com.uni.platform.dto.user.UserInfoDto;
 import com.uni.platform.entity.Comment;
 import com.uni.platform.dto.comment.CommentDto;
 import com.uni.platform.dto.comment.CreateCommentDto;
-import com.uni.platform.entity.Post;
 import com.uni.platform.entity.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

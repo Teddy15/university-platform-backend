@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Data
 @NoArgsConstructor
@@ -15,4 +16,7 @@ public class CreatePostDto {
 
     @NotBlank
     private String content;
+
+    @NotNull
+    private Long categoryId;
 }
