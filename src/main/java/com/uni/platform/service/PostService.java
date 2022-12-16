@@ -120,9 +120,7 @@ public class PostService {
         currentPost.setTitle(postDto.getTitle());
         currentPost.setContent(postDto.getContent());
         currentPost.setLastUpdatedAt(LocalDateTime.now());
-
-        Post post = postMapper.postDtoToPostEntity(currentPost);
-        post.setCategory(categoryMapper.categoryDtoToCategoryEntity(categoryDto));
+        currentPost.setCategory(categoryDto);
 
         postRepository.save(postMapper.postDtoToPostEntity(currentPost));
         return currentPost;
