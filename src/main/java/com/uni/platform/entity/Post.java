@@ -1,15 +1,19 @@
 package com.uni.platform.entity;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Set;
 
 @Entity(name="post")
 @Table(name="post", schema="uni_platform")
 @Data
+@EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = false)
 public class Post {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
@@ -28,6 +32,9 @@ public class Post {
     private LocalDateTime lastUpdatedAt;
 
     @ManyToOne
-    @JoinColumn(name="user_id", referencedColumnName = "id", nullable=false)
+    @JoinColumn(name = "user_id")
     private User user;
+
+    @OneToMany(mappedBy = "post")
+    private List<Comment> comments;
 }

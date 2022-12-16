@@ -58,6 +58,7 @@ public class WebSecurityConfig {
                 .authorizeRequests().antMatchers("/uni-platform/auth/**").permitAll()
                 .antMatchers("/uni-platform/users/**").permitAll()
                 .antMatchers("/uni-platform/posts/**").permitAll()
+                .antMatchers("/uni-platform/comments/**").permitAll()
                 .anyRequest().authenticated();
 
         http.authenticationProvider(authenticationProvider());

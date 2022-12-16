@@ -1,7 +1,9 @@
 package com.uni.platform.service;
 
 import com.uni.platform.dto.auth.SignupDto;
+import com.uni.platform.dto.post.PostDto;
 import com.uni.platform.dto.user.UpdateUserDto;
+import com.uni.platform.entity.Post;
 import com.uni.platform.entity.User;
 import com.uni.platform.mapper.UserMapper;
 import com.uni.platform.dto.user.UserDto;
@@ -20,6 +22,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
+import java.util.Set;
 
 @Slf4j
 @Service
@@ -40,6 +43,12 @@ public class UserService {
         this.userMapper = userMapper;
         this.encoder = encoder;
     }
+
+//    public Set<Post> getUserPosts(Long userId) {
+//        User user = userRepository.findById(userId).get();
+//
+//        return user.getPosts();
+//    }
 
     public List<UserDto> getAllUsers() {
         return userMapper.userEntityToUserDto(userRepository.findAll());

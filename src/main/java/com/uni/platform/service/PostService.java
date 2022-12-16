@@ -20,6 +20,8 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -48,14 +50,15 @@ public class PostService {
         Pageable pageable = PageRequest.of(currentPage - 1, itemsPerPage);
         Page<Post> postPage = postRepository.filterPostPages(pageable);
 
-        QueryPostDto result = new QueryPostDto();
+        List<Post> posts = postPage.getContent();
 
-        result.setPosts(postMapper.postEntityToPostDto(postPage.toList()));
+        QueryPostDto result = new QueryPostDto();
 
         result.setCurrentPage(currentPage);
         result.setItemsPerPage(itemsPerPage);
         result.setTotalPages(postPage.getTotalPages());
         result.setTotalElements(postPage.getTotalElements());
+        result.setPosts(postMapper.postEntityToPostDto(posts));
 
         return result;
     }

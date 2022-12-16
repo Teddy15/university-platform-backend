@@ -5,6 +5,7 @@ import com.uni.platform.service.CommentsService;
 import com.uni.platform.dto.comment.CreateCommentDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,6 +23,7 @@ public class CommentController {
     }
 
     @GetMapping
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ResponseEntity<?> getAllComments() {
         log.info("getAllComments() called");
         List<CommentDto> comments = commentsService.getAllComments();
@@ -29,6 +31,7 @@ public class CommentController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ResponseEntity<?> getCommentById(@PathVariable Long id) {
         log.info("getCommentById() called");
         CommentDto comments = commentsService.getCommentsById(id);
@@ -36,18 +39,21 @@ public class CommentController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ResponseEntity<?> updateComment(@RequestBody CommentDto commentDto, @PathVariable Long id) {
         log.info("updateComment() called");
         return commentsService.updateComment(commentDto, id);
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ResponseEntity<?> deleteComment(@PathVariable Long id) {
         log.info("deleteComment() called");
         return commentsService.deleteComment(id);
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ResponseEntity<String> createComment(@RequestBody CreateCommentDto createCommentDto) {
         log.info("createComment() called");
         return commentsService.createComment(createCommentDto);
