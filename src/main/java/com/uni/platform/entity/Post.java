@@ -31,7 +31,7 @@ public class Post {
     @NotNull
     private LocalDateTime lastUpdatedAt;
 
-    @ManyToOne()
+    @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 
