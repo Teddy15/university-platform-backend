@@ -1,4 +1,4 @@
-package com.uni.platform.service;
+package com.uni.platform.service.category;
 
 import com.uni.platform.entity.Category;
 import com.uni.platform.repository.CategoryRepository;

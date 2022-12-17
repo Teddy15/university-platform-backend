@@ -3,7 +3,7 @@ package com.uni.platform.controller;
 import com.uni.platform.dto.post.CreatePostDto;
 import com.uni.platform.dto.post.PostDto;
 import com.uni.platform.dto.post.QueryPostDto;
-import com.uni.platform.service.PostService;
+import com.uni.platform.service.post.PostService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

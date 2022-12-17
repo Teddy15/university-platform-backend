@@ -1,4 +1,4 @@
-package com.uni.platform.service;
+package com.uni.platform.service.comment;
 
 import com.uni.platform.dto.comment.CommentDto;
 import com.uni.platform.dto.comment.CreateCommentDto;

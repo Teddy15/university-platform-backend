@@ -1,4 +1,4 @@
-package com.uni.platform.service;
+package com.uni.platform.service.auth;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.uni.platform.entity.User;

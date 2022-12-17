@@ -1,7 +1,7 @@
 package com.uni.platform.util.jwt;
 
 import com.uni.platform.config.AppConfig;
-import com.uni.platform.service.UserDetailsImpl;
+import com.uni.platform.service.auth.UserDetailsImpl;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;

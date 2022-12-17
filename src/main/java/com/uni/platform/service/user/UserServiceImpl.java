@@ -1,4 +1,4 @@
-package com.uni.platform.service;
+package com.uni.platform.service.user;
 
 import com.uni.platform.dto.auth.SignupDto;
 import com.uni.platform.dto.user.UpdateUserDto;
@@ -40,12 +40,6 @@ public class UserServiceImpl implements UserService{
         this.userMapper = userMapper;
         this.encoder = encoder;
     }
-
-//    public Set<Post> getUserPosts(Long userId) {
-//        User user = userRepository.findById(userId).get();
-//
-//        return user.getPosts();
-//    }
 
     @Override
     public List<UserDto> getAllUsers() {

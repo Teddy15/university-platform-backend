@@ -2,7 +2,7 @@ package com.uni.platform.security;
 
 import com.uni.platform.security.jwt.AuthEntryPointJwt;
 import com.uni.platform.security.jwt.AuthTokenFilter;
-import com.uni.platform.service.UserDetailsServiceImpl;
+import com.uni.platform.service.auth.UserDetailsServiceImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

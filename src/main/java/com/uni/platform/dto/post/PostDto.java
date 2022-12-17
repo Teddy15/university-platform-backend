@@ -1,7 +1,6 @@
 package com.uni.platform.dto.post;
 
 import com.uni.platform.dto.category.CategoryDto;
-import com.uni.platform.dto.category.CategoryInfoDto;
 import com.uni.platform.dto.comment.CommentDto;
 import com.uni.platform.dto.user.UserInfoDto;
 import lombok.AllArgsConstructor;

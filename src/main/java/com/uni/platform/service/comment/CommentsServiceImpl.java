@@ -1,4 +1,4 @@
-package com.uni.platform.service;
+package com.uni.platform.service.comment;
 
 import com.uni.platform.dto.user.UserDto;
 import com.uni.platform.entity.Comment;
@@ -8,6 +8,8 @@ import com.uni.platform.repository.CommentRepository;
 import com.uni.platform.dto.comment.CommentDto;
 import com.uni.platform.dto.comment.CreateCommentDto;
 import com.uni.platform.mapper.CommentMapper;
+import com.uni.platform.service.post.PostServiceImpl;
+import com.uni.platform.service.user.UserServiceImpl;
 import com.uni.platform.util.SecurityUtils;
 import com.uni.platform.vo.UserRole;
 import org.springframework.http.HttpStatus;

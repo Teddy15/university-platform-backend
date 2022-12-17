@@ -2,8 +2,7 @@ package com.uni.platform.controller;
 
 import com.uni.platform.dto.user.UpdateUserDto;
 import com.uni.platform.dto.user.UserDto;
-import com.uni.platform.service.UserService;
-import com.uni.platform.service.UserServiceImpl;
+import com.uni.platform.service.user.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

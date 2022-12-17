@@ -2,8 +2,7 @@ package com.uni.platform.controller;
 
 import com.uni.platform.dto.category.CategoryDto;
 import com.uni.platform.dto.category.CreateCategoryDto;
-import com.uni.platform.service.CategoryService;
-import com.uni.platform.service.CategoryServiceImpl;
+import com.uni.platform.service.category.CategoryService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

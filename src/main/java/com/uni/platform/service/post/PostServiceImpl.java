@@ -1,4 +1,4 @@
-package com.uni.platform.service;
+package com.uni.platform.service.post;
 
 import com.uni.platform.dto.category.CategoryDto;
 import com.uni.platform.dto.post.CreatePostDto;
@@ -10,6 +10,8 @@ import com.uni.platform.mapper.CategoryMapper;
 import com.uni.platform.mapper.PostMapper;
 import com.uni.platform.mapper.UserMapper;
 import com.uni.platform.repository.PostRepository;
+import com.uni.platform.service.category.CategoryServiceImpl;
+import com.uni.platform.service.user.UserServiceImpl;
 import com.uni.platform.util.SecurityUtils;
 import com.uni.platform.vo.UserRole;
 import org.springframework.beans.factory.annotation.Autowired;

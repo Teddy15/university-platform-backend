@@ -1,4 +1,4 @@
-package com.uni.platform.service;
+package com.uni.platform.service.auth;
 
 import com.uni.platform.entity.User;
 import com.uni.platform.repository.UserRepository;

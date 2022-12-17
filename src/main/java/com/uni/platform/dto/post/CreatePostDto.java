@@ -1,6 +1,5 @@
 package com.uni.platform.dto.post;
 
-import com.uni.platform.dto.category.CategoryInfoDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
