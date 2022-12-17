@@ -1,9 +1,7 @@
-package com.uni.platform.service;
+package com.uni.platform.service.user;
 
 import com.uni.platform.dto.auth.SignupDto;
-import com.uni.platform.dto.post.PostDto;
 import com.uni.platform.dto.user.UpdateUserDto;
-import com.uni.platform.entity.Post;
 import com.uni.platform.entity.User;
 import com.uni.platform.mapper.UserMapper;
 import com.uni.platform.dto.user.UserDto;
@@ -22,11 +20,10 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
-import java.util.Set;
 
 @Slf4j
 @Service
-public class UserService {
+public class UserServiceImpl implements UserService{
     private static final String CREATE_SUCCESS = "Successfully created a user account!";
     private static final String DELETE_SUCCESS = "Successfully deleted your user account!";
 
@@ -38,22 +35,18 @@ public class UserService {
 
 
     @Autowired
-    public UserService(UserRepository userRepository, UserMapper userMapper, PasswordEncoder encoder) {
+    public UserServiceImpl(UserRepository userRepository, UserMapper userMapper, PasswordEncoder encoder) {
         this.userRepository = userRepository;
         this.userMapper = userMapper;
         this.encoder = encoder;
     }
 
-//    public Set<Post> getUserPosts(Long userId) {
-//        User user = userRepository.findById(userId).get();
-//
-//        return user.getPosts();
-//    }
-
+    @Override
     public List<UserDto> getAllUsers() {
         return userMapper.userEntityToUserDto(userRepository.findAll());
     }
 
+    @Override
     public UserDto getUserById(Long id) {
         log.info("Service called");
         return userMapper.userEntityToUserDto(
@@ -61,12 +54,14 @@ public class UserService {
                         .orElseThrow(() -> new NoSuchElementException("No user found with id: " + id)));
     }
 
+    @Override
     public UserDto getUserByUsername(String username) {
         return userMapper.userEntityToUserDto(
                 userRepository.findByUsername(username)
                         .orElseThrow(() -> new NoSuchElementException("No user found with username: " + username)));
     }
 
+    @Override
     public ResponseEntity<String> insertUser(SignupDto signupDto) {
         if (userRepository.existsByUsername(signupDto.getUsername())) {
             return ResponseEntity
@@ -97,6 +92,7 @@ public class UserService {
         return new ResponseEntity<>(CREATE_SUCCESS, HttpStatus.OK);
     }
 
+    @Override
     public UpdateUserDto updateUserById(Long id, UpdateUserDto updateUserDto) {
         Optional<User> currentUser = userRepository.findByUsername(SecurityUtils.getUserDetails().getUsername());
         Optional<User> userToUpdate = userRepository.findById(id);
@@ -120,6 +116,7 @@ public class UserService {
         return userMapper.userEntityToUpdateUserDto(userEntity);
     }
 
+    @Override
     public ResponseEntity<String> deleteById(Long id) {
         Optional<User> currentUser = userRepository.findByUsername(SecurityUtils.getUserDetails().getUsername());
         Optional<User> userToUpdate = userRepository.findById(id);

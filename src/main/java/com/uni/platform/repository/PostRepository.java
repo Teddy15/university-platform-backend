@@ -11,7 +11,7 @@ import java.util.Optional;
 public interface PostRepository extends JpaRepository<Post, Long> {
 
     @Query("SELECT p " +
-            "FROM post p ")
+            "FROM post p order by p.id")
     Page<Post> filterPostPages(Pageable pageable);
 
     Optional<Post> findByTitle(String title);

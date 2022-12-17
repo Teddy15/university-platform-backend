@@ -1,10 +1,8 @@
 package com.uni.platform.security.jwt;
 
-import com.uni.platform.service.UserDetailsServiceImpl;
+import com.uni.platform.service.auth.UserDetailsServiceImpl;
 import com.uni.platform.util.jwt.JwtUtils;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;

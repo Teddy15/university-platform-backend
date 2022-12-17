@@ -2,7 +2,7 @@ package com.uni.platform.security;
 
 import com.uni.platform.security.jwt.AuthEntryPointJwt;
 import com.uni.platform.security.jwt.AuthTokenFilter;
-import com.uni.platform.service.UserDetailsServiceImpl;
+import com.uni.platform.service.auth.UserDetailsServiceImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -59,6 +59,7 @@ public class WebSecurityConfig {
                 .antMatchers("/uni-platform/users/**").permitAll()
                 .antMatchers("/uni-platform/posts/**").permitAll()
                 .antMatchers("/uni-platform/comments/**").permitAll()
+                .antMatchers("/uni-platform/categories/**").permitAll()
                 .anyRequest().authenticated();
 
         http.authenticationProvider(authenticationProvider());

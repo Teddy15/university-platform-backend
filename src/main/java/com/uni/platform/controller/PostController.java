@@ -3,12 +3,11 @@ package com.uni.platform.controller;
 import com.uni.platform.dto.post.CreatePostDto;
 import com.uni.platform.dto.post.PostDto;
 import com.uni.platform.dto.post.QueryPostDto;
-import com.uni.platform.service.PostService;
+import com.uni.platform.service.post.PostService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -42,14 +41,14 @@ public class PostController {
 
     @PostMapping
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-    public ResponseEntity<String> insertPost(Authentication authentication, @Validated @RequestBody CreatePostDto createPostDto){
+    public ResponseEntity<String> insertPost(@Validated @RequestBody CreatePostDto createPostDto){
         log.info("insertPost() called");
         return postService.insertPost(createPostDto);
     }
 
     @PutMapping("/{postId}")
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-    public PostDto updatePost(@PathVariable Long postId, @RequestBody PostDto postDto){
+    public PostDto updatePost(@PathVariable Long postId, @RequestBody CreatePostDto postDto){
         log.info("updatePost() called");
         return postService.updatePost(postId, postDto);
     }

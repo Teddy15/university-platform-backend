@@ -1,4 +1,4 @@
-package com.uni.platform.service;
+package com.uni.platform.service.comment;
 
 import com.uni.platform.dto.comment.CommentDto;
 import com.uni.platform.dto.comment.CreateCommentDto;
@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
-public interface ICommentsService {
+public interface CommentsService {
 
     CommentDto getCommentsById(Long id);
 

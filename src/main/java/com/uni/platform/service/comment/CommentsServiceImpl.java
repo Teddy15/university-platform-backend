@@ -1,15 +1,15 @@
-package com.uni.platform.service;
+package com.uni.platform.service.comment;
 
-import com.uni.platform.dto.post.PostDto;
 import com.uni.platform.dto.user.UserDto;
 import com.uni.platform.entity.Comment;
-import com.uni.platform.entity.User;
 import com.uni.platform.mapper.PostMapper;
 import com.uni.platform.mapper.UserMapper;
 import com.uni.platform.repository.CommentRepository;
 import com.uni.platform.dto.comment.CommentDto;
 import com.uni.platform.dto.comment.CreateCommentDto;
 import com.uni.platform.mapper.CommentMapper;
+import com.uni.platform.service.post.PostServiceImpl;
+import com.uni.platform.service.user.UserServiceImpl;
 import com.uni.platform.util.SecurityUtils;
 import com.uni.platform.vo.UserRole;
 import org.springframework.http.HttpStatus;
@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 @Service
-public class CommentsService implements ICommentsService {
+public class CommentsServiceImpl implements CommentsService {
 
     private static final String CREATE_SUCCESS = "Successfully created a comment!";
     private static final String UPDATE_SUCCESS = "Successfully updated your comment!";
@@ -31,21 +31,21 @@ public class CommentsService implements ICommentsService {
     private final CommentRepository commentRepository;
     private final CommentMapper commentMapper;
 
-    private final PostService postService;
+    private final PostServiceImpl postServiceImpl;
 
     private final PostMapper postMapper;
 
-    private final UserService userService;
+    private final UserServiceImpl userServiceImpl;
 
     private final UserMapper userMapper;
 
-    public CommentsService(CommentRepository commentRepository, CommentMapper commentMapper,
-                           PostService postService, PostMapper postMapper, UserService userService, UserMapper userMapper) {
+    public CommentsServiceImpl(CommentRepository commentRepository, CommentMapper commentMapper,
+                               PostServiceImpl postServiceImpl, PostMapper postMapper, UserServiceImpl userServiceImpl, UserMapper userMapper) {
         this.commentRepository = commentRepository;
         this.commentMapper = commentMapper;
-        this.postService = postService;
+        this.postServiceImpl = postServiceImpl;
         this.postMapper = postMapper;
-        this.userService = userService;
+        this.userServiceImpl = userServiceImpl;
         this.userMapper = userMapper;
     }
 
@@ -72,12 +72,12 @@ public class CommentsService implements ICommentsService {
 
         comment.setPost(
                 postMapper.postDtoToPostEntity(
-                        postService.getPostById(
+                        postServiceImpl.getPostById(
                                 createCommentDto.getPostId())));
 
         comment.setUser(
                 userMapper.userDtoToUserEntity(
-                        userService.getUserByUsername(
+                        userServiceImpl.getUserByUsername(
                                 SecurityUtils.getUserDetails().getUsername())));
 
         commentRepository.save(comment);
@@ -86,7 +86,7 @@ public class CommentsService implements ICommentsService {
 
     @Override
     public ResponseEntity<String> deleteComment(Long id) {
-        UserDto currentUser = userService.getUserByUsername(
+        UserDto currentUser = userServiceImpl.getUserByUsername(
                 SecurityUtils.getUserDetails().getUsername());
         CommentDto currentComment = getCommentsById(id);
 
@@ -101,7 +101,7 @@ public class CommentsService implements ICommentsService {
 
     @Override
     public ResponseEntity<String> updateComment(CommentDto commentDto, Long id) {
-        UserDto currentUser = userService.getUserByUsername(
+        UserDto currentUser = userServiceImpl.getUserByUsername(
                 SecurityUtils.getUserDetails().getUsername());
         CommentDto currentComment = getCommentsById(id);
 
