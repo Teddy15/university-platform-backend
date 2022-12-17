@@ -11,8 +11,5 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 public class CreateReactionDto {
     @NotNull
-    private String reactedBy;
-
-    @NotNull
-    private Boolean isPositive;
+    private String reaction;
 }

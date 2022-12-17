@@ -1,10 +1,12 @@
 package com.uni.platform.dto.reaction;
 
+import com.uni.platform.entity.Post;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
@@ -14,8 +16,11 @@ public class ReactionDto {
     private Long id;
 
     @NotNull
-    private String reactedBy;
+    private String reaction;
 
     @NotNull
-    private Boolean isPositive;
+    private LocalDateTime reactedOn;
+
+    @NotNull
+    private Post post;
 }

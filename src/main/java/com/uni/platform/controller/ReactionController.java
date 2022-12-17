@@ -22,24 +22,6 @@ public class ReactionController {
         this.reactionService = reactionService;
     }
 
-    @GetMapping
-    public Integer getLikesForPerson(@RequestParam(defaultValue = "1") int currentPage,
-                                     @RequestParam(defaultValue = "10") int perPage,
-                                     @RequestParam() String reactedBy) {
-
-        log.info("getLikesForPerson() called");
-        return reactionService.getLikesForUser(currentPage, perPage, reactedBy);
-    }
-
-    @GetMapping
-    public Integer getDisLikesForPerson(@RequestParam(defaultValue = "1") int currentPage,
-                                        @RequestParam(defaultValue = "10") int perPage,
-                                        @RequestParam() String reactedBy) {
-
-        log.info("getDisLikesForPerson() called");
-        return reactionService.getDisLikes(currentPage, perPage, reactedBy);
-    }
-
     @PostMapping
     public ResponseEntity<String> createReaction(@Validated @RequestBody CreateReactionDto createReactionDto) {
         log.info("createReaction() called");
@@ -50,5 +32,11 @@ public class ReactionController {
     public ResponseEntity<String> updateReaction(@PathVariable Long reactionId, @RequestBody ReactionDto reactionDto) {
         log.info("updateReaction() called");
         return reactionService.updateReaction(reactionId, reactionDto);
+    }
+
+    @GetMapping("/{reactionId}")
+    public ReactionDto getReactionById(@PathVariable Long reactionId) {
+        log.info("getReactionById() called");
+        return reactionService.getReactionById(reactionId);
     }
 }

@@ -4,6 +4,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 
 @Entity(name = "reaction")
 @Table(name = "reaction", schema = "uni_platform")
@@ -14,10 +15,14 @@ public class Reaction {
     private Long id;
 
     @NotNull
-    private String reactedBy;
+    private String reaction;
 
     @NotNull
-    private Boolean isPositive;
+    private LocalDateTime reactedOn;
+
+    @ManyToOne
+    @JoinColumn(name = "id", nullable = false)
+    private Post post;
 
 
     public Long getId() {
@@ -28,19 +33,27 @@ public class Reaction {
         this.id = id;
     }
 
-    public Boolean getIsPositive() {
-        return isPositive;
+    public String getReaction() {
+        return reaction;
     }
 
-    public void setIsPositive(Boolean isPositive) {
-        this.isPositive = isPositive;
+    public void setReaction(String reaction) {
+        this.reaction = reaction;
     }
 
-    public String getReactedBy() {
-        return reactedBy;
+    public LocalDateTime getReactedOn() {
+        return reactedOn;
     }
 
-    public void setReactedBy(String reactedBy) {
-        this.reactedBy = reactedBy;
+    public void setReactedOn(LocalDateTime reactedOn) {
+        this.reactedOn = reactedOn;
+    }
+
+    public Post getPost() {
+        return post;
+    }
+
+    public void setPost(Post post) {
+        this.post = post;
     }
 }

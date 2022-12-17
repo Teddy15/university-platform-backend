@@ -6,13 +6,14 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
+import java.util.List;
 
-@Entity(name="post")
-@Table(name="post", schema="uni_platform")
+@Entity(name = "post")
+@Table(name = "post", schema = "uni_platform")
 @Data
 public class Post {
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotBlank
@@ -26,4 +27,7 @@ public class Post {
 
     @NotNull
     private LocalDateTime lastUpdatedAt;
+
+    @OneToMany(mappedBy = "reaction")
+    private List<Reaction> reactions;
 }
