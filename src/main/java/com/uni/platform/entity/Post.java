@@ -35,6 +35,7 @@ public class Post {
     private User user;
 
     @OneToMany(mappedBy = "post")
+    @OrderBy("id ASC")
     private List<Comment> comments;
 
     @ManyToOne

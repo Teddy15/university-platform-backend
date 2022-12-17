@@ -26,11 +26,11 @@ import java.util.Set;
 public interface PostMapper {
     @Mapping(source = "user", target = "user", qualifiedByName = "userToUserPostDto")
     @Mapping(source = "category", target = "category", qualifiedByName = "categoryToCategoryDto")
-    @Mapping(source = "comments", target = "comments", qualifiedByName = "map")
+    @Mapping(source = "comments", target = "comments", qualifiedByName = "commentToCommentDto")
     PostDto postEntityToPostDto(Post src);
 
-    @Named("map")
-    default List<CommentDto> map(List<Comment> comments){
+    @Named("commentToCommentDto")
+    default List<CommentDto> commentToCommentDto(List<Comment> comments){
         List<CommentDto> result = new ArrayList<>();
 
         for (Comment comment:comments) {

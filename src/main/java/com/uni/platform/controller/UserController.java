@@ -2,8 +2,8 @@ package com.uni.platform.controller;
 
 import com.uni.platform.dto.user.UpdateUserDto;
 import com.uni.platform.dto.user.UserDto;
-import com.uni.platform.entity.Post;
 import com.uni.platform.service.UserService;
+import com.uni.platform.service.UserServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.Set;
 
 @Slf4j
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -40,12 +39,6 @@ public class UserController {
         log.info("getAllUsers() called");
         return userService.getAllUsers();
     }
-
-//    @GetMapping("/{userId}/posts")
-//    public Set<Post> getUserPosts(@PathVariable Long userId) {
-//        log.info("getAllUsers() called");
-//        return userService.getUserPosts(userId);
-//    }
 
     @GetMapping("/{userId}")
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")

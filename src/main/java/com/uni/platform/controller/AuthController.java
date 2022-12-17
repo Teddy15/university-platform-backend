@@ -4,7 +4,7 @@ import com.uni.platform.dto.auth.JwtResponseDto;
 import com.uni.platform.dto.auth.LoginDto;
 import com.uni.platform.dto.auth.SignupDto;
 import com.uni.platform.service.UserDetailsImpl;
-import com.uni.platform.service.UserService;
+import com.uni.platform.service.UserServiceImpl;
 import com.uni.platform.util.jwt.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -31,13 +31,13 @@ public class AuthController {
 
     private final JwtUtils jwtUtils;
 
-    private final UserService userService;
+    private final UserServiceImpl userServiceImpl;
 
     @Autowired
-    public AuthController(AuthenticationManager authenticationManager, JwtUtils jwtUtils, UserService userService) {
+    public AuthController(AuthenticationManager authenticationManager, JwtUtils jwtUtils, UserServiceImpl userServiceImpl) {
         this.authenticationManager = authenticationManager;
         this.jwtUtils = jwtUtils;
-        this.userService = userService;
+        this.userServiceImpl = userServiceImpl;
     }
 
     @PostMapping("/signin")
@@ -62,6 +62,6 @@ public class AuthController {
 
     @PostMapping("/signup")
     public ResponseEntity<String> registerUser(@Valid @RequestBody SignupDto signupDto) {
-        return userService.insertUser(signupDto);
+        return userServiceImpl.insertUser(signupDto);
     }
 }
