@@ -56,7 +56,8 @@ public interface PostMapper {
     Post createPostDtoToPostEntity(CreatePostDto src);
 
     @Named("userToUserPostDto")
-    default UserInfoDto userToUserPostDto(User user) {
+    default UserInfoDto userToUserInfoDto(User user) {
+
         return new UserInfoDto(user.getId(), user.getUsername());
     }
 

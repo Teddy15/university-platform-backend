@@ -51,8 +51,7 @@ public class CategoryServiceImpl implements CategoryService{
 
     @Override
     public ResponseEntity<String> insertCategory(CreateCategoryDto createCategoryDto) {
-        Category category = new Category();
-        category.setName(createCategoryDto.getName());
+        Category category = categoryMapper.createCategoryDtoToCategoryEntity(createCategoryDto);
         category.setCreatedAt(LocalDateTime.now());
         category.setLastUpdatedAt(LocalDateTime.now());
 
