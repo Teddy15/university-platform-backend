@@ -1,4 +1,4 @@
-package com.uni.platform.service;
+package com.uni.platform.service.attachment;
 
 import com.amazonaws.AmazonServiceException;
 import com.amazonaws.services.s3.AmazonS3;
@@ -23,7 +23,7 @@ import java.util.NoSuchElementException;
 import java.util.UUID;
 
 @Service
-public class AttachmentService {
+public class AttachmentServiceImpl implements AttachmentService{
     private static final String UPLOAD_SUCCESS = "Successfully uploaded a file!";
 
     private static final String UPLOAD_KEY = "posts/%s/%s-%s.%s";
@@ -32,11 +32,12 @@ public class AttachmentService {
     private final AppConfig appConfig;
 
     @Autowired
-    public AttachmentService(AttachmentRepository attachmentRepository, AppConfig appConfig){
+    public AttachmentServiceImpl(AttachmentRepository attachmentRepository, AppConfig appConfig){
         this.attachmentRepository = attachmentRepository;
         this.appConfig = appConfig;
     }
 
+    @Override
     public ResponseEntity<AttachmentDto> downloadFile(Long fileId){
         Attachment attachment = attachmentRepository
                 .findById(fileId)
@@ -64,6 +65,7 @@ public class AttachmentService {
         return ResponseEntity.ok(result);
     }
 
+    @Override
     public ResponseEntity<String> uploadFile(AttachmentDto attachmentDto) {
         String fileKey = constructPostAttachmentFileKey(
                 attachmentDto.getPostId(), attachmentDto.getFileName(), attachmentDto.getFileType());
