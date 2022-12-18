@@ -41,4 +41,8 @@ public class Comment {
     @JsonIgnore
     @JoinColumn(name = "user_id")
     private User user;
+
+    @OneToOne
+    @JoinColumn(name = "attachment_id")
+    private Attachment attachment;
 }

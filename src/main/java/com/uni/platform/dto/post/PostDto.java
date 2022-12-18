@@ -1,5 +1,6 @@
 package com.uni.platform.dto.post;
 
+import com.uni.platform.dto.attachment.AttachmentInfoDto;
 import com.uni.platform.dto.category.CategoryDto;
 import com.uni.platform.dto.comment.CommentDto;
 import com.uni.platform.dto.user.UserInfoDto;
@@ -30,6 +31,8 @@ public class PostDto {
     private UserInfoDto user;
 
     private CategoryDto category;
+
+    private AttachmentInfoDto attachment;
 
     private List<CommentDto> comments;
 }

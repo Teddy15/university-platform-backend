@@ -10,6 +10,7 @@ import org.springframework.validation.annotation.Validated;
 @Validated
 public class AppConfig {
     private final JwtConfig jwtConfig = new JwtConfig();
+    private final AmazonS3Config amazonS3Config = new AmazonS3Config();
 
     public JwtConfig getJwtConfig() {
         return jwtConfig;
@@ -20,5 +21,18 @@ public class AppConfig {
     public class JwtConfig {
         private String secret;
         private String expirationMilliseconds;
+    }
+    
+    public AmazonS3Config getAmazonS3Config() {
+        return amazonS3Config;
+    }
+    
+    @ConfigurationProperties(prefix = "amazon_s3_config")
+    @Data
+    public class AmazonS3Config {
+        private String bucketName;
+        private String accessKey;
+        private String secretKey;
+        private String region;
     }
 }
