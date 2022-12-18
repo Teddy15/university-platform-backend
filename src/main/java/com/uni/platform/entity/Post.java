@@ -41,4 +41,8 @@ public class Post {
     @ManyToOne
     @JoinColumn(name="category_id")
     private Category category;
+
+    @OneToOne
+    @JoinColumn(name="attachment_id")
+    private Attachment attachment;
 }

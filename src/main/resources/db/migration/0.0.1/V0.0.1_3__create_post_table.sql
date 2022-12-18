@@ -5,5 +5,6 @@ CREATE TABLE IF NOT EXISTS post(
     created_at timestamp NOT NULL,
     last_updated_at timestamp NOT NULL,
     user_id INTEGER REFERENCES "user" (id),
-    category_id INTEGER REFERENCES category (id)
+    category_id INTEGER REFERENCES category (id),
+    attachment_id INTEGER REFERENCES attachment (id)
 );
