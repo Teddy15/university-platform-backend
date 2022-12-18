@@ -18,19 +18,19 @@ public class Attachment {
     private Long id;
 
     @NotBlank
-    private String fileKey;
+    private String attachmentKey;
 
     @NotBlank
-    private String fileName;
+    private String attachmentName;
 
     @NotBlank
-    private String fileType;
+    private String attachmentType;
 
-    @OneToOne(mappedBy = "attachment")
-    @JsonIgnore
-    private Post post;
-
-    @OneToOne(mappedBy = "attachment")
-    @JsonIgnore
-    private Comment comment;
+//    @OneToOne(mappedBy = "attachment")
+//    @JsonIgnore
+//    private Post post;
+//
+//    @OneToOne(mappedBy = "attachment")
+//    @JsonIgnore
+//    private Comment comment;
 }

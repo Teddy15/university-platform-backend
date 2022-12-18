@@ -44,5 +44,6 @@ public class Comment {
 
     @OneToOne
     @JoinColumn(name = "attachment_id")
+    @JsonIgnore
     private Attachment attachment;
 }

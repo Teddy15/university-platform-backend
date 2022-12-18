@@ -1,5 +1,6 @@
 package com.uni.platform.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -44,5 +45,6 @@ public class Post {
 
     @OneToOne
     @JoinColumn(name="attachment_id")
+    @JsonIgnore
     private Attachment attachment;
 }

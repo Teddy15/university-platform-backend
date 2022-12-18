@@ -1,14 +1,12 @@
 package com.uni.platform.mapper;
 
+import com.uni.platform.dto.attachment.AttachmentInfoDto;
 import com.uni.platform.dto.category.CategoryDto;
 import com.uni.platform.dto.comment.CommentDto;
 import com.uni.platform.dto.post.CreatePostDto;
 import com.uni.platform.dto.post.PostDto;
 import com.uni.platform.dto.user.UserInfoDto;
-import com.uni.platform.entity.Category;
-import com.uni.platform.entity.Comment;
-import com.uni.platform.entity.Post;
-import com.uni.platform.entity.User;
+import com.uni.platform.entity.*;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
@@ -25,7 +23,15 @@ public interface PostMapper {
     @Mapping(source = "user", target = "user", qualifiedByName = "userToUserPostDto")
     @Mapping(source = "category", target = "category", qualifiedByName = "categoryToCategoryDto")
     @Mapping(source = "comments", target = "comments", qualifiedByName = "commentToCommentDto")
+    @Mapping(source = "attachment", target = "attachment", qualifiedByName = "attachmentToAttachmentInfoDto")
     PostDto postEntityToPostDto(Post src);
+
+    List<PostDto> postEntityToPostDto(List<Post> src);
+
+    @Mapping(source = "category", target = "category", qualifiedByName = "categoryDtoToCategory")
+    Post postDtoToPostEntity(PostDto src);
+
+    Post createPostDtoToPostEntity(CreatePostDto src);
 
     @Named("commentToCommentDto")
     default List<CommentDto> commentToCommentDto(List<Comment> comments){
@@ -46,13 +52,6 @@ public interface PostMapper {
         return result;
     }
 
-    List<PostDto> postEntityToPostDto(List<Post> src);
-
-    @Mapping(source = "category", target = "category", qualifiedByName = "categoryDtoToCategory")
-    Post postDtoToPostEntity(PostDto src);
-
-    Post createPostDtoToPostEntity(CreatePostDto src);
-
     @Named("userToUserPostDto")
     default UserInfoDto userToUserInfoDto(User user) {
 
@@ -72,5 +71,15 @@ public interface PostMapper {
                 categoryDto.getName(),
                 categoryDto.getCreatedAt(),
                 categoryDto.getLastUpdatedAt());
+    }
+
+    @Named("attachmentToAttachmentInfoDto")
+    default AttachmentInfoDto attachmentToAttachmentInfoDto(Attachment attachment) {
+        AttachmentInfoDto result = new AttachmentInfoDto();
+        result.setId(attachment.getId());
+        result.setFileName(attachment.getAttachmentName());
+        result.setFileType(attachment.getAttachmentType());
+
+        return result;
     }
 }

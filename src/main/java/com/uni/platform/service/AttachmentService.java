@@ -2,7 +2,6 @@ package com.uni.platform.service;
 
 import com.amazonaws.AmazonServiceException;
 import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.model.GetObjectRequest;
 import com.amazonaws.services.s3.model.PutObjectResult;
 import com.amazonaws.services.s3.model.S3Object;
 import com.amazonaws.services.s3.model.S3ObjectInputStream;
@@ -49,12 +48,12 @@ public class AttachmentService {
             AmazonS3 amazonS3 = amazonClientConfig.getAmazonS3Client();
 
             S3Object obj = amazonS3.getObject(
-                    appConfig.getAmazonS3Config().getBucketName(), attachment.getFileKey());
+                    appConfig.getAmazonS3Config().getBucketName(), attachment.getAttachmentKey());
 
             S3ObjectInputStream stream = obj.getObjectContent();
 
-            result.setFileName(attachment.getFileName());
-            result.setFileType(attachment.getFileType());
+            result.setFileName(attachment.getAttachmentName());
+            result.setFileType(attachment.getAttachmentType());
             result.setFileContent(
                     com.amazonaws.util.Base64.encodeAsString(IOUtils.toByteArray(stream)));
         }
@@ -73,9 +72,9 @@ public class AttachmentService {
             uploadFileToAmazon(attachmentDto, fileKey);
 
             Attachment attachment = new Attachment();
-            attachment.setFileKey(fileKey);
-            attachment.setFileName(attachmentDto.getFileName());
-            attachment.setFileType(attachmentDto.getFileType());
+            attachment.setAttachmentKey(fileKey);
+            attachment.setAttachmentName(attachmentDto.getFileName());
+            attachment.setAttachmentType(attachmentDto.getFileType());
 
             attachmentRepository.save(attachment);
         }catch(AmazonServiceException | IOException e) {
