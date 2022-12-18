@@ -39,13 +39,23 @@ public interface PostMapper {
 
         for (Comment comment:comments) {
             UserInfoDto currentUserInfo = new UserInfoDto(comment.getUser().getId(), comment.getUser().getUsername());
+            AttachmentInfoDto attachmentInfoDto = null;
+
+            if(comment.getAttachment() != null){
+                attachmentInfoDto = new AttachmentInfoDto();
+                attachmentInfoDto.setId(comment.getAttachment().getId());
+                attachmentInfoDto.setAttachmentName(comment.getAttachment().getAttachmentName());
+                attachmentInfoDto.setAttachmentType(comment.getAttachment().getAttachmentType());
+            }
 
             CommentDto currentCommentDto = new CommentDto();
             currentCommentDto.setId(comment.getId());
             currentCommentDto.setContent(comment.getContent());
             currentCommentDto.setUser(currentUserInfo);
+            currentCommentDto.setAttachment(attachmentInfoDto);
             currentCommentDto.setCreated_at(comment.getCreated_at());
             currentCommentDto.setLast_updated_at(comment.getLast_updated_at());
+
             result.add(currentCommentDto);
         }
 
@@ -77,8 +87,8 @@ public interface PostMapper {
     default AttachmentInfoDto attachmentToAttachmentInfoDto(Attachment attachment) {
         AttachmentInfoDto result = new AttachmentInfoDto();
         result.setId(attachment.getId());
-        result.setFileName(attachment.getAttachmentName());
-        result.setFileType(attachment.getAttachmentType());
+        result.setAttachmentName(attachment.getAttachmentName());
+        result.setAttachmentType(attachment.getAttachmentType());
 
         return result;
     }

@@ -13,8 +13,8 @@ public class AttachmentInfoDto {
     private Long id;
 
     @NotBlank
-    private String fileName;
+    private String attachmentName;
 
     @NotBlank
-    private String fileType;
+    private String attachmentType;
 }
