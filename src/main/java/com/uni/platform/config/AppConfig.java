@@ -1,9 +1,7 @@
 package com.uni.platform.config;
 
 import lombok.Data;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.info.BuildProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.validation.annotation.Validated;
 
@@ -11,12 +9,24 @@ import org.springframework.validation.annotation.Validated;
 @ConfigurationProperties(prefix = "config")
 @Validated
 public class AppConfig {
+    private final JwtConfig jwtConfig = new JwtConfig();
     private final AmazonS3Config amazonS3Config = new AmazonS3Config();
 
+    public JwtConfig getJwtConfig() {
+        return jwtConfig;
+    }
+
+    @ConfigurationProperties(prefix = "jwt_config")
+    @Data
+    public class JwtConfig {
+        private String secret;
+        private String expirationMilliseconds;
+    }
+    
     public AmazonS3Config getAmazonS3Config() {
         return amazonS3Config;
     }
-
+    
     @ConfigurationProperties(prefix = "amazon_s3_config")
     @Data
     public class AmazonS3Config {
