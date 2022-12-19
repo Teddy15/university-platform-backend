@@ -7,7 +7,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 @Data
@@ -15,15 +14,14 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class CommentDto {
 
-    @NotNull
     private Long id;
 
     @NotBlank
     private String content;
 
-    private LocalDateTime created_at;
+    private LocalDateTime createdAt;
 
-    private LocalDateTime last_updated_at;
+    private LocalDateTime lastUpdatedAt;
 
     private UserInfoDto user;
 

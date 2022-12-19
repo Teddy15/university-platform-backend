@@ -5,7 +5,6 @@ import com.uni.platform.dto.auth.LoginDto;
 import com.uni.platform.dto.auth.SignupDto;
 import com.uni.platform.service.auth.UserDetailsImpl;
 import com.uni.platform.service.user.UserService;
-import com.uni.platform.service.user.UserServiceImpl;
 import com.uni.platform.util.jwt.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -58,6 +57,7 @@ public class AuthController {
                 userDetails.getId(),
                 userDetails.getUsername(),
                 userDetails.getEmail(),
+                userDetails.getFullName(),
                 roles));
     }
 

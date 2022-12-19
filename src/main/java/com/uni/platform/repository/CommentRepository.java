@@ -11,6 +11,6 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
 
     Optional<Comment> findById(Long id);
 
-    @Query("SELECT c from comment c order by c.created_at")
+    @Query("SELECT c from comment c order by c.createdAt")
     List<Comment> orderCommentByCreatedAt();
 }

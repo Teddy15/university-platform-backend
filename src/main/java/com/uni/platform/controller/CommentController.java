@@ -13,7 +13,7 @@ import java.util.List;
 @RestController
 @Slf4j
 @RequestMapping("/uni-platform/comments")
-@CrossOrigin(origins = "*", maxAge = 30)
+@CrossOrigin(origins = "*", maxAge = 3600)
 public class CommentController {
 
     private CommentsService commentsService;

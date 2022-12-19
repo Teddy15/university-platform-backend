@@ -27,10 +27,10 @@ public class Comment {
     private String content;
 
     @Column
-    private LocalDateTime created_at;
+    private LocalDateTime createdAt;
 
     @Column
-    private LocalDateTime last_updated_at;
+    private LocalDateTime lastUpdatedAt;
 
     @ManyToOne
     @JsonIgnore
