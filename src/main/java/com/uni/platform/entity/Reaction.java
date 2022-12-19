@@ -1,6 +1,7 @@
 package com.uni.platform.entity;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -9,6 +10,7 @@ import java.time.LocalDateTime;
 @Entity(name = "reaction")
 @Table(name = "reaction", schema = "uni_platform")
 @Data
+@EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = false)
 public class Reaction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

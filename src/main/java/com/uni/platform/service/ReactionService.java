@@ -15,8 +15,9 @@ import java.util.NoSuchElementException;
 @Service
 public class ReactionService {
 
-    private static final String REACTION_MESSAGE = "Reaction created!";
+    private static final String REACTION_MESSAGE = "Reacted!";
     private static final String CHANGE_REACTION_MESSAGE = "Reaction changed!";
+    private static final String REACTION_DELETED_MESSAGE = "Reaction removed!";
 
     private final ReactionMapper mapper;
     private final ReactionRepository repo;
@@ -27,11 +28,13 @@ public class ReactionService {
         this.repo = repo;
     }
 
-    public ResponseEntity<String> createReactionDto(CreateReactionDto createReactionDto) {
+    public ReactionDto insertReactionDto(CreateReactionDto createReactionDto) {
         Reaction reaction = mapper.createReactionDtoToReactionEntity(createReactionDto);
 
         repo.save(reaction);
-        return new ResponseEntity<>(REACTION_MESSAGE, HttpStatus.OK);
+
+        ReactionDto reactionDto = mapper.reactionEntityToReactionDto(reaction);
+        return reactionDto;
     }
 
     public ReactionDto getReactionById(Long id) {
@@ -42,11 +45,15 @@ public class ReactionService {
     }
 
     public ResponseEntity<String> updateReaction(Long id, ReactionDto reactionDto) {
-        getReactionById(id);
-
         Reaction reaction = mapper.reactionDtoToReactionEntity(reactionDto);
         repo.save(reaction);
 
         return new ResponseEntity<>(CHANGE_REACTION_MESSAGE, HttpStatus.OK);
+    }
+
+    public ResponseEntity<String> deleteReactionById(Long id) {
+        repo.deleteById(id);
+
+        return new ResponseEntity<>(REACTION_DELETED_MESSAGE, HttpStatus.OK);
     }
 }
