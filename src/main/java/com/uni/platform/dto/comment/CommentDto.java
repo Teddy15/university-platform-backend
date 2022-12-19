@@ -1,5 +1,6 @@
 package com.uni.platform.dto.comment;
 
+import com.uni.platform.dto.attachment.AttachmentInfoDto;
 import com.uni.platform.dto.user.UserInfoDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -25,4 +26,6 @@ public class CommentDto {
     private LocalDateTime last_updated_at;
 
     private UserInfoDto user;
+
+    private AttachmentInfoDto attachment;
 }

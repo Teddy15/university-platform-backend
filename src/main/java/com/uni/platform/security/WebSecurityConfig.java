@@ -60,6 +60,7 @@ public class WebSecurityConfig {
                 .antMatchers("/uni-platform/posts/**").permitAll()
                 .antMatchers("/uni-platform/comments/**").permitAll()
                 .antMatchers("/uni-platform/categories/**").permitAll()
+                .antMatchers("/uni-platform/attachments/**").permitAll()
                 .anyRequest().authenticated();
 
         http.authenticationProvider(authenticationProvider());

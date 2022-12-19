@@ -60,9 +60,12 @@ public class CategoryServiceImpl implements CategoryService{
     }
 
     @Override
-    public ResponseEntity<String> updateCategoryById(Long id, CategoryDto categoryDto) {
-        getCategoryById(id);
-        categoryRepository.save(categoryMapper.categoryDtoToCategoryEntity(categoryDto));
+    public ResponseEntity<String> updateCategoryById(Long id, CreateCategoryDto categoryDto) {
+        CategoryDto category = getCategoryById(id);
+
+        category.setName(categoryDto.getName());
+
+        categoryRepository.save(categoryMapper.categoryDtoToCategoryEntity(category));
         return new ResponseEntity<>(UPDATE_SUCCESS, HttpStatus.OK);
     }
 
