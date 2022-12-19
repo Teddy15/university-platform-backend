@@ -67,8 +67,8 @@ public class CommentsServiceImpl implements CommentsService {
         Comment comment = commentMapper.createCommentDtoToCommentEntity(createCommentDto);
 
         LocalDateTime created_at = LocalDateTime.now();
-        comment.setCreated_at(created_at);
-        comment.setLast_updated_at(created_at);
+        comment.setCreatedAt(created_at);
+        comment.setLastUpdatedAt(created_at);
 
         comment.setPost(
                 postMapper.postDtoToPostEntity(
@@ -111,7 +111,7 @@ public class CommentsServiceImpl implements CommentsService {
         }
 
         currentComment.setContent(commentDto.getContent());
-        currentComment.setLast_updated_at(LocalDateTime.now());
+        currentComment.setLastUpdatedAt(LocalDateTime.now());
 
         commentRepository.save(commentMapper.commentDtoToCommentEntity(currentComment));
         return new ResponseEntity<>(UPDATE_SUCCESS, HttpStatus.OK);

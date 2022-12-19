@@ -53,8 +53,8 @@ public interface PostMapper {
             currentCommentDto.setContent(comment.getContent());
             currentCommentDto.setUser(currentUserInfo);
             currentCommentDto.setAttachment(attachmentInfoDto);
-            currentCommentDto.setCreated_at(comment.getCreated_at());
-            currentCommentDto.setLast_updated_at(comment.getLast_updated_at());
+            currentCommentDto.setCreatedAt(comment.getCreatedAt());
+            currentCommentDto.setLastUpdatedAt(comment.getLastUpdatedAt());
 
             result.add(currentCommentDto);
         }
