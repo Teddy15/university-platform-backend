@@ -48,14 +48,16 @@ public class CategoryController {
 
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<String> insertCategory(@Validated @RequestBody CreateCategoryDto createCategoryDto) {
+    public ResponseEntity<String> insertCategory(
+            @Validated @RequestBody CreateCategoryDto createCategoryDto) {
         log.info("insertCategory() called");
         return categoryService.insertCategory(createCategoryDto);
     }
 
     @PutMapping("/{categoryId}")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<String> updateCategoryByName(@PathVariable Long categoryId, @Validated @RequestBody CategoryDto categoryDto) {
+    public ResponseEntity<String> updateCategoryByName(
+            @PathVariable Long categoryId, @Validated @RequestBody CreateCategoryDto categoryDto) {
         return categoryService.updateCategoryById(categoryId, categoryDto);
     }
 
