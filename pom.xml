@@ -141,12 +141,12 @@
 				<version>${flyway.version}</version>
 				<configuration>
 					<user>postgres</user>
-					<password>postgres</password>
+					<password>1</password>
 					<schemas>
 						<schema>uni_platform</schema>
 					</schemas>
 					<locations>filesystem:src/main/resources/db/migration</locations>
-					<url>jdbc:postgresql://localhost:5432/postgres</url>
+					<url>jdbc:postgresql://localhost:5432/uni_platform</url>
 				</configuration>
 			</plugin>
 		</plugins>

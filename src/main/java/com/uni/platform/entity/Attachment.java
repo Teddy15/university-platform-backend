@@ -11,7 +11,6 @@ import javax.validation.constraints.NotBlank;
 @Entity(name="attachment")
 @Table(name="attachment", schema="uni_platform")
 @Data
-@EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = false)
 public class Attachment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

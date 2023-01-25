@@ -13,7 +13,6 @@ import java.util.List;
 @Entity(name="post")
 @Table(name="post", schema="uni_platform")
 @Data
-@EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = false)
 public class Post {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
