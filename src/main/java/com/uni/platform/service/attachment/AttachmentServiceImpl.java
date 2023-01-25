@@ -17,6 +17,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.io.*;
 import java.util.Base64;
 import java.util.NoSuchElementException;
@@ -38,6 +39,7 @@ public class AttachmentServiceImpl implements AttachmentService{
     }
 
     @Override
+    @Transactional
     public ResponseEntity<AttachmentDto> downloadFile(Long fileId){
         Attachment attachment = attachmentRepository
                 .findById(fileId)
@@ -66,6 +68,7 @@ public class AttachmentServiceImpl implements AttachmentService{
     }
 
     @Override
+    @Transactional
     public ResponseEntity<String> uploadFile(AttachmentDto attachmentDto) {
         String fileKey = constructPostAttachmentFileKey(
                 attachmentDto.getPostId(), attachmentDto.getFileName(), attachmentDto.getFileType());

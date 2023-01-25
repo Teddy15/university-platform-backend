@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -50,6 +51,7 @@ public class CategoryServiceImpl implements CategoryService{
     }
 
     @Override
+    @Transactional
     public ResponseEntity<String> insertCategory(CreateCategoryDto createCategoryDto) {
         Category category = categoryMapper.createCategoryDtoToCategoryEntity(createCategoryDto);
         category.setCreatedAt(LocalDateTime.now());
@@ -60,6 +62,7 @@ public class CategoryServiceImpl implements CategoryService{
     }
 
     @Override
+    @Transactional
     public ResponseEntity<String> updateCategoryById(Long id, CreateCategoryDto categoryDto) {
         CategoryDto category = getCategoryById(id);
 
@@ -70,6 +73,7 @@ public class CategoryServiceImpl implements CategoryService{
     }
 
     @Override
+    @Transactional
     public ResponseEntity<String> deleteById(Long id) {
         getCategoryById(id);
 
