@@ -23,6 +23,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -91,6 +92,7 @@ public class PostServiceImpl implements PostService{
     }
 
     @Override
+    @Transactional
     public ResponseEntity<String> insertPost(CreatePostDto createPostDto){
         CategoryDto categoryDto = categoryServiceImpl.getCategoryById(createPostDto.getCategoryId());
 
@@ -111,6 +113,7 @@ public class PostServiceImpl implements PostService{
     }
 
     @Override
+    @Transactional
     public PostDto updatePost(Long id, CreatePostDto postDto) {
         UserDto currentUser = userServiceImpl.getUserByUsername(SecurityUtils.getUserDetails().getUsername());
         PostDto currentPost = getPostById(id);
@@ -132,6 +135,7 @@ public class PostServiceImpl implements PostService{
     }
 
     @Override
+    @Transactional
     public ResponseEntity<String> deletePostById(Long id){
         UserDto currentUser = userServiceImpl.getUserByUsername(SecurityUtils.getUserDetails().getUsername());
         PostDto currentPost = getPostById(id);

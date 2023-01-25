@@ -17,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -62,6 +63,7 @@ public class CommentsServiceImpl implements CommentsService {
     }
 
     @Override
+    @Transactional
     public ResponseEntity<String> createComment(CreateCommentDto createCommentDto) {
 
         Comment comment = commentMapper.createCommentDtoToCommentEntity(createCommentDto);
@@ -85,6 +87,7 @@ public class CommentsServiceImpl implements CommentsService {
     }
 
     @Override
+    @Transactional
     public ResponseEntity<String> deleteComment(Long id) {
         UserDto currentUser = userServiceImpl.getUserByUsername(
                 SecurityUtils.getUserDetails().getUsername());
@@ -100,6 +103,7 @@ public class CommentsServiceImpl implements CommentsService {
     }
 
     @Override
+    @Transactional
     public ResponseEntity<String> updateComment(CommentDto commentDto, Long id) {
         UserDto currentUser = userServiceImpl.getUserByUsername(
                 SecurityUtils.getUserDetails().getUsername());
